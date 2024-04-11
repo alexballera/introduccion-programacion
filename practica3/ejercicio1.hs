@@ -11,10 +11,11 @@ problema f (n: Z) : Z {
   }
 
 -}
-funcionF :: Int -> Int
-funcionF f | f == 1 = 8
-           | f == 4 = 131
-           | f == 16 = 16
+functionF :: Int -> Int
+functionF n | n == 1 = 8
+           | n == 4 = 131
+           | n == 16 = 16
+           | otherwise = 0
 
 {-
 b) An´alogamente, especificar e implementar la funci´on parcial g :: Integer->Integer
@@ -22,19 +23,22 @@ g(8) = 16
 g(16) = 4
 g(131) = 1
 -}
-funcionG :: Int -> Int
-funcionG g | g == 8 = 16
-           | g == 16 = 4
-           | g == 131= 1
+functionG :: Int -> Int
+functionG n | n == 8 = 16
+           | n == 16 = 4
+           | n == 131= 1
+           | otherwise = 0
 
 {-
-c) A partir de las funciones definidas en los ´ıtem 1 y 2, implementar las funciones parciales
+c) A partir de las functiones definidas en los ´ıtem 1 y 2, implementar las functiones parciales
 h = f ◦ g y
 k = g ◦f
 -}
 
-funcionH :: Int -> Int
-funcionK = funcionF.funcionG
+functionH :: Int -> Int
+-- functionH = functionF.functionG
+functionH n = functionF (functionG n)
 
-funcionK :: Int -> Int
-funcionH = funcionG.funcionF
+functionK :: Int -> Int
+-- functionK = functionG.functionF
+functionK n = functionG (functionF n)
