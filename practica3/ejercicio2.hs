@@ -105,12 +105,45 @@ problema f (n: Z, m: Z, p: Z): Z {
 -}
 
 functionSumaDistintos :: (Int, Int, Int) -> Int
-functionSumaDistintos (n, m, p) | (n /= m) && (n /= p) && (m /= p) = m + n + p 
+functionSumaDistintos (n, m, p) | (n /= m) && (n /= p) && (m /= p) = m + n + p
                                 | (n == m) && (n /= p) = m + p
                                 | (n == p) && (n /= m) = n + m
                                 | (m == p) && (n /= p) = n + p
                                 | otherwise = m
 
--- h) esMultiploDe: dados dos numeros naturales, decidir si el primero es multiplo del segundo.
--- i) digitoUnidades: dado un numero entero, extrae su dıgito de las unidades.
--- j) digitoDecenas: dado un numero entero, extrae su dıgito de las decenas. 
+{-
+h) esMultiploDe: dados dos numeros naturales, decidir si el primero es multiplo del segundo.
+
+problema f (n: N, m: N): Bool {
+  requiere: {n: N, m: N}
+  asegura: {n/p = p, p: N -> result = True}
+  }
+-}
+
+functionEsMultiploDe :: (Integer, Integer) -> Bool
+functionEsMultiploDe (n, m) = n `mod` m == 0
+
+{-
+i) digitoUnidades: dado un numero entero, extrae su dıgito de las unidades.
+
+problema f (n: Z): Z {
+  requiere: {n: Z}
+  asegura: {Extraer su dıgito de las unidades}
+  }
+-}
+
+functionDigitoUnidades :: Int -> Int
+functionDigitoUnidades x = mod (abs x) 10
+
+{-
+j) digitoDecenas: dado un numero entero, extrae su dıgito de las decenas. 
+
+problema f (n: Z): Z {
+  requiere: {n: Z}
+  asegura: {Extraer su dıgito de las decenas}
+  }
+-}
+
+functionDigitoDecenas :: Int -> Int
+functionDigitoDecenas x = mod (abs x `div` 10) 10
+
