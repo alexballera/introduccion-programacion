@@ -5,7 +5,8 @@
 -}
 
 {-
-? a) Implentar la funcion parcial f :: Integer->Integer definida por extension de la siguiente manera:
+? a) Implentar la funcion parcial f :: Integer->Integer definida
+? por extension de la siguiente manera:
 ? f(1) = 8
 ? f(4) = 131
 ? f(16) = 16
@@ -45,7 +46,7 @@ h n = f (g n)
 -- h = f.g
 
 k :: Integer -> Integer
--- k n = functionG (functionF n)
+-- k n = g (f n)
 k = g.f
 
 {-
@@ -176,7 +177,7 @@ problema f (n: N, m: N): Bool {
 -}
 
 esMultiploDe :: (Integer, Integer) -> Bool
-esMultiploDe (n, m) = n `mod` m == 0
+esMultiploDe (n, m) = mod n m == 0
 
 {-
 ? i) digitoUnidades: dado un numero entero, extrae su dıgito de las unidades.
@@ -204,7 +205,49 @@ digitoDecenas x = mod (abs x `div` 10) 10
 
 {-
 ! *****************************************************************
-! Ejercicio 3.⋆ Especificar e implementar las siguientes funciones,
-! incluyendo su signatura.
+! Ejercicio 3.
+! Implementar una funcion estanRelacionados :: Integer->Integer->Bool
 ! *****************************************************************
+
+
+problema estanRelacionados (a:Z, b:Z) : Bool {
+  requiere: {a= 0∧b= 0}
+  asegura: {(res = true) ↔ a∗a+a∗b∗k = 0 para algun k ∈ Z con k= 0)}
+  }
+  Por ejemplo:
+  estanRelacionados 8 2 ⇝ True porque existe un k = −4 tal que 82 +8×2×(−4) = 0.
+  estanRelacionados 7 3 ⇝ False porque no existe un k entero tal que 72 +7×3×k = 0.
+-}
+estanRelacionados :: Integer -> Integer -> Bool
+estanRelacionados a b = mod a b == 0
+
+{-
+! *****************************************************************
+! Ejercicio 4. Especificar e implementar las siguientes funciones
+! utilizando tuplas para representar pares, ternas de numeros.
+! *****************************************************************
+-}
+
+-- ? a) prodInt: calcula el producto interno entre dos tuplas R × R.
+
+{-
+problema prodInt (a:R, b:R) -> (c: R, d: R): (e: R, f: R) {
+  requiere: {a, b, c, d E R}
+  asegura: {Resultado de la suma del producto interno entre dos tuplas R × R}
+  }
+-}
+
+prodInt :: (Float, Float) -> (Float, Float) -> Float
+prodInt (a,b) (c,d) = a*(c + d) + b*(c + d)
+
+{-
+? b) todoMenor: dadas dos tuplas R×R, decide si es cierto que cada coordenada
+? de la primera tupla es menor a la coordenada correspondiente de la segunda tupla.
+-}
+
+{-
+problema prodInt (a:R, b:R) -> (c: R, d: R): (e: R, f: R) {
+  requiere: {a, b, c, d E R}
+  asegura: {Resultado de la suma del producto interno entre dos tuplas R × R}
+  }
 -}
