@@ -176,7 +176,7 @@ problema f (n: N, m: N): Bool {
   }
 -}
 
-esMultiploDe :: (Integer, Integer) -> Bool
+esMultiploDe :: (Int, Int) -> Bool
 esMultiploDe (n, m) = mod n m == 0
 
 {-
@@ -255,9 +255,7 @@ problema todoMenor (a:R, b:R) -> (c: R, d: R): (e: R, f: R) {
 todoMenor :: (Int, Int) -> (Int, Int) -> Bool
 todoMenor (a, b) (c, d) = (a < c) && (b < d)
 
-{-
-? c) distanciaPuntos: calcula la distancia entre dos puntos de R2
--}
+-- ? c) distanciaPuntos: calcula la distancia entre dos puntos de R2
 
 {-
 problema distanciaPuntos (a:R, b:R) -> (c: R, d: R): (e: R, f: R) {
@@ -268,3 +266,65 @@ problema distanciaPuntos (a:R, b:R) -> (c: R, d: R): (e: R, f: R) {
 
 distanciaPuntos :: (Float, Float) -> (Float, Float) -> Float
 distanciaPuntos (a, b) (c, d) = sqrt ((a - c)**2 + (b - d)**2)
+
+-- ? sumaTerna: dada una terna de enteros, calcula la suma de sus tres elementos.
+
+{-
+problema sumaTerna (a: R, b: R, c: R): R {
+  requiere: {a, b, c, E R}
+  asegura: {Suma de sus tres elementos-> result = R }
+  }
+-}
+
+sumaTerna:: (Float, Float, Float) -> Float
+sumaTerna (a, b, c) = a + b + c
+
+{-
+? e) sumarSoloMultiplos: dada una terna de numeros enteros y un natural,
+? calcula la suma de los elementos de la terna que son multiplos del numero
+? natural. Por ejemplo:
+? sumarSoloMultiplos (10,-8,-5) 2 ⇝ 2
+? sumarSoloMultiplos (66,21,4) 5 ⇝ 0
+? sumarSoloMultiplos (-30,2,12) 3 ⇝-18
+
+problema sumarSoloMultiplos (a: Z, b: Z, c: Z) -> d: N: Z {
+  require: {a, b, c E Z; d E N}
+  asegura: {Suma de los elementos de la terna que sean multiplos de d -> result = Z}
+}
+-}
+
+sumarSoloMultiplos :: (Int, Int, Int) -> Int -> Int
+sumarSoloMultiplos (a, b, c) d | esMultiploDe (a, d) && esMultiploDe (b, d) && not (esMultiploDe (c, d) ) = a + b
+                               | esMultiploDe (a, d) && not (esMultiploDe (b, d)) && esMultiploDe (c, d) = a + c
+                               | not (esMultiploDe (a, d)) && esMultiploDe (b, d) && esMultiploDe (c, d) = b + c
+                               | esMultiploDe (a, d) && not (esMultiploDe (b, d)) && not (esMultiploDe (c, d) )= a
+                               | not (esMultiploDe (a, d)) && not (esMultiploDe (b, d)) && esMultiploDe (c, d) = c
+                               | not (esMultiploDe (a, d)) && esMultiploDe (b, d) && not (esMultiploDe (c, d)) = b
+                               | not (esMultiploDe (a, d)) && not (esMultiploDe (b, d)) && not (esMultiploDe (c, d)) = 0
+                               | otherwise = a + b + c
+
+{-
+? g) crearPar :: a->b->(a, b):
+? crea un par a partir de sus dos componentes dadas por separado
+? (debe funcionar para elementos de cualquier tipo)
+
+  problema crearPar a -> b -> (a, b)  {
+    require: {a, b, E Z;}
+    asegura: {Dupla a partir de sus dos componentes -> result = (a ,b)}
+  }
+-}
+crearPar :: a -> b -> (a, b)
+crearPar a b = (a, b)
+
+{-
+? invertir :: (a, b) -> (b, a): invierte los elementos del par
+? pasado como parametro (debe funcionar para elementos de cualquier tipo)
+
+  problema invertir (a, b) -> (b, a)  {
+    require: {a, b, E Z;}
+    asegura: {Invierte los elementos del par -> result = (b ,a)}
+  }
+-}
+
+invertir :: (a, b) -> (b, a)
+invertir (a, b) = (b, a)
