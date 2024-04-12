@@ -246,8 +246,25 @@ prodInt (a,b) (c,d) = a*(c + d) + b*(c + d)
 -}
 
 {-
-problema prodInt (a:R, b:R) -> (c: R, d: R): (e: R, f: R) {
+problema todoMenor (a:R, b:R) -> (c: R, d: R): (e: R, f: R) {
   requiere: {a, b, c, d E R}
-  asegura: {Resultado de la suma del producto interno entre dos tuplas R × R}
+  asegura: {(a < c) ∧ (b < d) -> result = True }
   }
 -}
+
+todoMenor :: (Int, Int) -> (Int, Int) -> Bool
+todoMenor (a, b) (c, d) = (a < c) && (b < d)
+
+{-
+? c) distanciaPuntos: calcula la distancia entre dos puntos de R2
+-}
+
+{-
+problema distanciaPuntos (a:R, b:R) -> (c: R, d: R): (e: R, f: R) {
+  requiere: {a, b, c, d E R}
+  asegura: {√(a - c)²+(b - d)² -> result = R }
+  }
+-}
+
+distanciaPuntos :: (Float, Float) -> (Float, Float) -> Float
+distanciaPuntos (a, b) (c, d) = sqrt ((a - c)**2 + (b - d)**2)
