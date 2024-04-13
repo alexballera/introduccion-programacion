@@ -317,7 +317,7 @@ crearPar :: a -> b -> (a, b)
 crearPar a b = (a, b)
 
 {-
-? invertir :: (a, b) -> (b, a): invierte los elementos del par
+? h) invertir :: (a, b) -> (b, a): invierte los elementos del par
 ? pasado como parametro (debe funcionar para elementos de cualquier tipo)
 
   problema invertir (a, b) -> (b, a)  {
@@ -328,3 +328,67 @@ crearPar a b = (a, b)
 
 invertir :: (a, b) -> (b, a)
 invertir (a, b) = (b, a)
+
+{-
+? Ejercicio 5. Implementar la funcion todosMenores :: (Integer, Integer, Integer)->Bool
+  problema todosMenores (t : Z×Z×Z) : Bool {
+    requiere: {True}
+    asegura: {(res = true) ↔ ((f(t0) > g(t0)) ∧(f(t1) > g(t1)) ∧ (f(t2) > g(t2)))}
+  }
+
+  problema f (n: Z) : Z {
+    requiere: {True}
+    asegura: {(n ≤ 7 → res = n2)∧(n > 7 →res =2n−1)}
+  }
+
+  problema g (n: Z) : Z {
+    requiere: {True}
+    asegura: {Si n es un numero par, entonces res = n/2, en caso contrario, res = 3n+1}
+  }
+-}
+
+todosMenores :: (Integer, Integer, Integer) -> Bool
+f5 :: Integer -> Integer
+g5 :: Integer -> Integer
+
+f5 n | n <= 7 = 2*n
+     | otherwise = 2*n - 1
+
+g5 n | even n = div n 2
+     | otherwise = 3*n + 1
+
+todosMenores (m, n, o) = (f m > g m) && (f n > g n) && (f o > g o)
+
+{-
+? Ejercicio 6. Programar una funcion bisiesto :: Integer -> Bool
+? segun la siguiente especificacion:
+
+problema bisiesto (año: Z) : Bool {
+  requiere: {True}
+  asegura: {res = false ↔ año no es multiplo de 4 o año es multiplo de 100 pero no de 400}
+}
+
+Por ejemplo:
+bisiesto 1901 ⇝ False,
+bisiesto 1900 ⇝ False,
+bisiesto 1904 ⇝ True,
+bisiesto 2000 ⇝ True.
+-}
+
+bisiesto :: Int -> Bool
+bisiesto a = not (mod a 4 /= 0 || mod a 100 == 0 && mod a 400 /= 0 )
+
+{-
+? Ejercicio 7. Implementar una funcion: distanciaManhattan:: (Float, Float, Float) -> (Float, Float, Float) -> Float
+
+problema distanciaManhattan (p : R×R×R,q : R×R×R) : R {
+  requiere: {True}
+  asegura: {res = 2 i=0|pi −qi|}
+  }
+Por ejemplo:
+distanciaManhattan (2, 3, 4) (7, 3, 8) ⇝ 9
+distanciaManhattan ((-1), 0, (-8.5)) (3.3, 4, (-4)) ⇝ 12.8
+-}
+
+distanciaManhattan :: (Float, Float, Float) -> (Float, Float, Float) -> Float
+distanciaManhattan (x1, y1, z1) (x2, y2, z2) = abs (x1 - x2) + abs (y1 - y2) + abs (z1 - z2)
