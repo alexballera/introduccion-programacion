@@ -1,10 +1,8 @@
 {-
 ! *****************************************************************
--- ! Ejercicio 1.
+! Ejercicio 1.
 ! *****************************************************************
--}
 
-{-
 ? a) Implentar la funcion parcial f :: Integer->Integer definida
 ? por extension de la siguiente manera:
 ? f(1) = 8
@@ -51,11 +49,12 @@ k = g.f
 
 {-
 ! *****************************************************************
-! Ejercicio 2.⋆ Especificar e implementar las siguientes funciones,
-! incluyendo su signatura.
+! Ejercicio 2.
 ! *****************************************************************
--}
-{- 
+
+? Especificar e implementar las siguientes funciones,
+? incluyendo su signatura.
+
 ? a) absoluto: calcula el valor absoluto de un numero entero.
 
 problema f (n: Z): Z {
@@ -206,9 +205,9 @@ digitoDecenas x = mod (abs x `div` 10) 10
 {-
 ! *****************************************************************
 ! Ejercicio 3.
-! Implementar una funcion estanRelacionados :: Integer->Integer->Bool
 ! *****************************************************************
 
+? Implementar una funcion estanRelacionados :: Integer -> Integer -> Bool
 
 problema estanRelacionados (a:Z, b:Z) : Bool {
   requiere: {a= 0∧b= 0}
@@ -223,14 +222,14 @@ estanRelacionados a b = mod a b == 0
 
 {-
 ! *****************************************************************
-! Ejercicio 4. Especificar e implementar las siguientes funciones
-! utilizando tuplas para representar pares, ternas de numeros.
+! Ejercicio 4.
 ! *****************************************************************
--}
 
--- ? a) prodInt: calcula el producto interno entre dos tuplas R × R.
+? Especificar e implementar las siguientes funciones
+? utilizando tuplas para representar pares, ternas de numeros.
 
-{-
+? a) prodInt: calcula el producto interno entre dos tuplas R × R.
+
 problema prodInt (a:R, b:R) -> (c: R, d: R): (e: R, f: R) {
   requiere: {a, b, c, d E R}
   asegura: {Resultado de la suma del producto interno entre dos tuplas R × R}
@@ -330,7 +329,12 @@ invertir :: (a, b) -> (b, a)
 invertir (a, b) = (b, a)
 
 {-
-? Ejercicio 5. Implementar la funcion todosMenores :: (Integer, Integer, Integer)->Bool
+! *****************************************************************
+! Ejercicio 5.
+! *****************************************************************
+
+? Implementar la funcion todosMenores :: (Integer, Integer, Integer)->Bool
+
   problema todosMenores (t : Z×Z×Z) : Bool {
     requiere: {True}
     asegura: {(res = true) ↔ ((f(t0) > g(t0)) ∧(f(t1) > g(t1)) ∧ (f(t2) > g(t2)))}
@@ -360,7 +364,11 @@ g5 n | even n = div n 2
 todosMenores (m, n, o) = (f m > g m) && (f n > g n) && (f o > g o)
 
 {-
-? Ejercicio 6. Programar una funcion bisiesto :: Integer -> Bool
+! *****************************************************************
+! Ejercicio 6.
+! *****************************************************************
+
+? Programar una funcion bisiesto :: Integer -> Bool
 ? segun la siguiente especificacion:
 
 problema bisiesto (año: Z) : Bool {
@@ -379,7 +387,11 @@ bisiesto :: Int -> Bool
 bisiesto a = not (mod a 4 /= 0 || mod a 100 == 0 && mod a 400 /= 0 )
 
 {-
-? Ejercicio 7. Implementar una funcion: distanciaManhattan:: (Float, Float, Float) -> (Float, Float, Float) -> Float
+! *****************************************************************
+! Ejercicio 7.
+! *****************************************************************
+
+? Implementar una funcion: distanciaManhattan:: (Float, Float, Float) -> (Float, Float, Float) -> Float
 
 problema distanciaManhattan (p : R×R×R,q : R×R×R) : R {
   requiere: {True}
@@ -392,3 +404,38 @@ distanciaManhattan ((-1), 0, (-8.5)) (3.3, 4, (-4)) ⇝ 12.8
 
 distanciaManhattan :: (Float, Float, Float) -> (Float, Float, Float) -> Float
 distanciaManhattan (x1, y1, z1) (x2, y2, z2) = abs (x1 - x2) + abs (y1 - y2) + abs (z1 - z2)
+
+{-
+! *****************************************************************
+! Ejercicio 8.
+! *****************************************************************
+
+? Implementar una funcion comparar :: Integer -> Integer -> Integer
+
+problema comparar (a:Z, b:Z) : Z {
+  requiere: {True}
+  asegura: {(res = 1 ↔ sumaUltimosDosDigitos(a) < sumaUltimosDosDigitos(b))}
+  asegura: {(res = −1 ↔ sumaUltimosDosDigitos(a) > sumaUltimosDosDigitos(b))}
+  asegura: {(res = 0 ↔ sumaUltimosDosDigitos(a) = sumaUltimosDosDigitos(b))}
+}
+
+problema sumaUltimosDosDigitos (x: Z) : Z {
+  requiere: {True}
+  asegura: {res = (|x| mod 10)+(⌊(|x|/10)⌋ mod 10)}
+}
+
+Por ejemplo:
+
+comparar 45 312 ⇝-1 porque 45 ≺ 312 y 4+5>1+2.
+comparar 2312 7 ⇝ 1 porque 2312 ≺ 7 y 1+2<0+7.
+comparar 45 172 ⇝ 0 porque no vale 45 ≺ 172 ni tampoco 172 ≺ 45.
+-}
+
+comparar :: (Integer, Integer) -> Integer
+sumaUltimoDosDigitos :: Integer -> Integer
+
+sumaUltimoDosDigitos x = (abs x `mod` 10) + (abs x `div` 10 `mod` 10)
+
+comparar (a, b) | sumaUltimoDosDigitos a < sumaUltimoDosDigitos b = 1
+                | sumaUltimoDosDigitos a > sumaUltimoDosDigitos b = -1
+                | otherwise = 0
