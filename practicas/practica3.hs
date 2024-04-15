@@ -286,21 +286,19 @@ sumaTerna (a, b, c) = a + b + c
 ? sumarSoloMultiplos (66,21,4) 5 ⇝ 0
 ? sumarSoloMultiplos (-30,2,12) 3 ⇝-18
 
-problema sumarSoloMultiplos (a: Z, b: Z, c: Z) -> d: N: Z {
-  require: {a, b, c E Z; d E N}
-  asegura: {Suma de los elementos de la terna que sean multiplos de d -> result = Z}
+problema sumarSoloMultiplos (a: Z, b: Z, c: Z) -> n: N: Z {
+  require: {a, b, c E Z; n E N}
+  asegura: {Suma de los elementos de la terna que sean multiplos de n -> result = Z}
 }
 -}
 
 sumarSoloMultiplos :: (Int, Int, Int) -> Int -> Int
-sumarSoloMultiplos (a, b, c) d | esMultiploDe (a, d) && esMultiploDe (b, d) && not (esMultiploDe (c, d) ) = a + b
-                               | esMultiploDe (a, d) && not (esMultiploDe (b, d)) && esMultiploDe (c, d) = a + c
-                               | not (esMultiploDe (a, d)) && esMultiploDe (b, d) && esMultiploDe (c, d) = b + c
-                               | esMultiploDe (a, d) && not (esMultiploDe (b, d)) && not (esMultiploDe (c, d) )= a
-                               | not (esMultiploDe (a, d)) && not (esMultiploDe (b, d)) && esMultiploDe (c, d) = c
-                               | not (esMultiploDe (a, d)) && esMultiploDe (b, d) && not (esMultiploDe (c, d)) = b
-                               | not (esMultiploDe (a, d)) && not (esMultiploDe (b, d)) && not (esMultiploDe (c, d)) = 0
-                               | otherwise = a + b + c
+sumarSoloMultiplos (a, b, c) n = esMultiplo (a, n) + esMultiplo (b, n) + esMultiplo (c, n)
+
+esMultiplo :: (Int, Int) -> Int
+esMultiplo (x, n) | esMultiploDe (x, n) = x
+                  | otherwise = 0
+
 
 {-
 ? g) crearPar :: a->b->(a, b):
