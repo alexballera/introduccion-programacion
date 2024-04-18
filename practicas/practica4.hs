@@ -58,7 +58,7 @@ problema esDivisible (m: Z, n: Z) : Z {
 esDivisible :: Integer -> Integer -> Bool
 esDivisible m n | m < n = False
                 | m == n = True
-                | m > n = esDivisible (m - n) n
+                | m > n = esDivisible (m - n) n
 
 {-
 ! Ejercicio 4.
@@ -72,6 +72,16 @@ problema sumaImpares (n: N) : N {
 }
 -}
 
+sumaImpares :: Int -> Int
+sumaImpares 0 = 0
+sumaImpares 1 = 1
+sumaImpares n = sumaImpares (n - 1) + (2*n - 1)
+
+{-
+! Ejercicio 5.
+? Implementar la función medioFact :: Integer -> Integer que dado n ∈ N calcula n!! = n(n−2)(n−4)···.
+-}
+
 {-
 ! Ejercicio 7.
 ? Implementar la función todosDigitosIguales :: Integer -> Bool
@@ -83,14 +93,14 @@ problema todosDigitosIguales (n: Z) : B {
 }
 -}
 digitoUnidades :: Integer -> Integer
-digitoUnidades n = mod n 10 
+digitoUnidades n = mod n 10
 
 sacarUnidades :: Integer -> Integer
-sacarUnidades n = div n 10 
+sacarUnidades n = div n 10
 
-{- todosDigitosIguales :: Integer -> Bool
+todosDigitosIguales :: Integer -> Bool
 todosDigitosIguales n | n < 10 = True
-                      | otherwise = (digitoUnidades) -}
+                      | otherwise = (digitoUnidades n == digitoUnidades (sacarUnidades n)) && todosDigitosIguales (sacarUnidades n)
 
 {-
 ! Ejercicio 13.
@@ -102,10 +112,10 @@ problema sumatoris (n: Z, m: Z) : Z {
 }
 -}
 
-g :: Int -> Int -> Int
-g 0 _ = 0
-g m i = g (m - 1) i + i^m
+gEjercicio13 :: Int -> Int -> Int
+gEjercicio13 0 _ = 0
+gEjercicio13 m i = gEjercicio13 (m - 1) i + i^m
 
-f :: Int -> Int -> Int
-f 0 _ = 0
-f n m = f (n - 1) m + g n m 
+fEjercicio13 :: Int -> Int -> Int
+fEjercicio13 0 _ = 0
+fEjercicio13 n m = fEjercicio13 (n - 1) m + gEjercicio13 n m
