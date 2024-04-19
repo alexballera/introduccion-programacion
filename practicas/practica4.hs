@@ -82,6 +82,26 @@ sumaImpares n = sumaImpares (n - 1) + (2*n - 1)
 ? Implementar la función medioFact :: Integer -> Integer que dado n ∈ N calcula n!! = n(n−2)(n−4)···.
 -}
 
+medioFact :: Integer -> Integer
+medioFact 0 = 1
+medioFact 1 = 1
+medioFact n = n*medioFact(n - 2)
+
+{-
+! Ejercicio 6.
+? Especificar e implementar la función sumaDigitos :: Integer -> Integer que calcula la suma de
+? dígitos de un número natural. Para esta función pueden utilizar div y mod
+-}
+
+muestraUltimoDigito :: Integer -> Integer
+muestraUltimoDigito n = mod n 10
+
+quitaUltimoDigito :: Integer -> Integer
+quitaUltimoDigito n = div n 10
+
+sumaDigitos :: Integer -> Integer
+sumaDigitos n | n < 10 = n
+              | otherwise = muestraUltimoDigito n + sumaDigitos(quitaUltimoDigito n)
 {-
 ! Ejercicio 7.
 ? Implementar la función todosDigitosIguales :: Integer -> Bool
@@ -92,15 +112,10 @@ problema todosDigitosIguales (n: Z) : B {
   asegura: { resultado = true ↔ todos los dígitos de n son iguales }
 }
 -}
-digitoUnidades :: Integer -> Integer
-digitoUnidades n = mod n 10
-
-sacarUnidades :: Integer -> Integer
-sacarUnidades n = div n 10
 
 todosDigitosIguales :: Integer -> Bool
 todosDigitosIguales n | n < 10 = True
-                      | otherwise = (digitoUnidades n == digitoUnidades (sacarUnidades n)) && todosDigitosIguales (sacarUnidades n)
+                      | otherwise = (muestraUltimoDigito n == muestraUltimoDigito (quitaUltimoDigito n)) && todosDigitosIguales (quitaUltimoDigito n)
 
 {-
 ! Ejercicio 13.
