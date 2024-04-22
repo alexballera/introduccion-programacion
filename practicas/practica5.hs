@@ -46,3 +46,27 @@ quitar _ [] = []
 quitar x (y:ys)
  | x == y = ys
  | otherwise = y:(quitar x ys )
+
+{-
+! Ejercicio 3.3
+? Definir las siguientes funciones sobre listas de enteros
+
+problema maximo (s: seq⟨Z⟩) : Z {
+  requiere: { |s| > 0 }
+  asegura: { resultado ∈ s ∧ todo elemento de s es menor o
+  igual a resultado}
+}
+-}
+
+maximo :: [Int] -> Int
+maximo [x] = x
+maximo (x:y:ys)
+ | x > y = maximo (x:ys)
+ | otherwise = maximo (y:ys)
+
+maximoB :: [Int] -> Int
+maximoB [x] = x
+maximoB (x:xs)
+ | x > head(xs) = maximoB (x:tail(xs))
+ | otherwise = maximoB xs
+
