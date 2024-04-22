@@ -85,7 +85,7 @@ sumaImpares n = sumaImpares (n - 1) + (2*n - 1)
 medioFact :: Integer -> Integer
 medioFact 0 = 1
 medioFact 1 = 1
-medioFact n = n*medioFact(n - 2)
+medioFact n = n*medioFact (n - 2)
 
 {-
 ! Ejercicio 6.
@@ -100,8 +100,9 @@ quitaUltimoDigito :: Integer -> Integer
 quitaUltimoDigito n = div n 10
 
 sumaDigitos :: Integer -> Integer
-sumaDigitos n | n < 10 = n
-              | otherwise = muestraUltimoDigito n + sumaDigitos(quitaUltimoDigito n)
+sumaDigitos n
+ | n < 10 = n
+ | otherwise = muestraUltimoDigito n + sumaDigitos (quitaUltimoDigito n)
 {-
 ! Ejercicio 7.
 ? Implementar la función todosDigitosIguales :: Integer -> Bool
@@ -114,23 +115,96 @@ problema todosDigitosIguales (n: Z) : B {
 -}
 
 todosDigitosIguales :: Integer -> Bool
-todosDigitosIguales n | n < 10 = True
-                      | otherwise = (muestraUltimoDigito n == muestraUltimoDigito (quitaUltimoDigito n)) && todosDigitosIguales (quitaUltimoDigito n)
+todosDigitosIguales n
+ | n < 10 = True
+ | otherwise = (muestraUltimoDigito n == muestraUltimoDigito (quitaUltimoDigito n)) && todosDigitosIguales (quitaUltimoDigito n)
 
+{-
+! Ejercicio 8.
+? Implementar la función iesimoDigito :: Integer -> Integer -> Integer
+? que dado un n 2 N 0 y un i 2 N menor o igual a la cantidad de dígitos de n,
+? devuelve el i-ésimo dígito de n.
+-}
+
+iesimoDigito :: Integer -> Integer -> Integer
+iesimoDigito n i | i == cantidadDigitos n = mostrarUltimo n
+                 | otherwise = mod (div n (10^(cantidadDigitos n - i))) 10 -- iesimoDigito (sacarUltimo n) i 
+                 where mostrarUltimo n = mod n 10
+                       sacarUltimo n = div n 10
+
+cantidadDigitos :: Integer -> Integer
+cantidadDigitos n | n < 10 = 1
+                  | otherwise = 1 + cantidadDigitos (sacarUltimo n)
+                   where sacarUltimo n = div n 10
+
+{-
+! Ejercicio 9.
+? Especificar e implementar una función esCapicua :: Integer -> Bool
+? que dado n E N >= 0 determina si n es un número capicúa.
+
+problema esCapicua (n: N): Bool {
+  requiere: {n >= 0}
+  asegura: { Sea n = abcd..., entonces abcd... = ...dcba, resultado = True }
+}
+-}
+
+esCapicua :: Integer -> Bool
+esCapicua n
+ | cantidadDigitos n <= 1 = True
+ | iesimoDigito n (cantidadDigitos n) /= iesimoDigito n 1 = False
+ | otherwise = esCapicua (quitaExtremos n)
+ where quitaExtremos n = div (mod n (10^(cantidadDigitos n - 1))) 10 -- al n de entrada le saca los extremos ej: 9876789 -> 87678
+
+{-
+! Ejercicio 10.
+? Especificar, implementar y dar el tipo de las siguientes funciones
+-}
+
+f1 :: Integer -> Integer
+f1 0 = 1
+f1 n | n > 0 = 2^(n + 1) - 1
+
+f2 :: Integer -> Float -> Float
+f2 1 q = q
+f2 n q = f2 (n - 1) q + q^n
+
+f3 :: Integer -> Float -> Float
+f3 n = f2 (2 * n)
+
+f4 :: Integer -> Float -> Float
+-- f4 n q = f3 n q - f2 n q
+f4 n q = f2 (2*n) q - f2 n q
+
+{-
+! Ejercicio 11.
+? Especificar e implementar una función eAprox :: Integer -> Float
+? que aproxime el valor del número e
+-}
+eAprox :: Integer -> Float
+eAprox 0 = 1
+eAprox 1 = 2
+eAprox n
+  = eAprox (n - 1) + 1/factorial n
+ where factorial 0 = 1
+       factorial 1 = 1
+       factorial n = factorial(n - 1)* fromIntegral n
+
+e :: Float
+e = eAprox 10
 {-
 ! Ejercicio 13.
 ? Especificar e implementar la siguiente función:
 
-problema sumatoris (n: Z, m: Z) : Z {
+problema sumatoria (n: Z, m: Z) : Z {
   requiere: { n > 0 }
   asegura: { resultado = sumatoria }
 }
 -}
 
-gEjercicio13 :: Int -> Int -> Int
-gEjercicio13 0 _ = 0
-gEjercicio13 m i = gEjercicio13 (m - 1) i + i^m
+sumatoriaInterna :: Int -> Int -> Int
+sumatoriaInterna 0 _ = 0
+sumatoriaInterna m i = sumatoriaInterna (m - 1) i + i^m
 
-fEjercicio13 :: Int -> Int -> Int
-fEjercicio13 0 _ = 0
-fEjercicio13 n m = fEjercicio13 (n - 1) m + gEjercicio13 n m
+sumatoria :: Int -> Int -> Int
+sumatoria 0 _ = 0
+sumatoria n m = sumatoria (n - 1) m + sumatoriaInterna n m
