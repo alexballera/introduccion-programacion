@@ -189,6 +189,17 @@ eAprox n
 
 e :: Float
 e = eAprox 10
+
+{-
+! Ejercicio 12.
+-}
+
+f :: Integer -> Float
+f 1 = 2
+f n = 2 + 1/f (n - 1)
+
+raizDe2Aprox n = f n - 1
+
 {-
 ! Ejercicio 13.
 ? Especificar e implementar la siguiente función:
@@ -206,3 +217,24 @@ sumatoriaInterna m i = sumatoriaInterna (m - 1) i + i^m
 sumatoria :: Int -> Int -> Int
 sumatoria 0 _ = 0
 sumatoria n m = sumatoria (n - 1) m + sumatoriaInterna n m
+
+{-
+! Ejercicio 14.
+? Especificar e implementar una función
+? sumaPotencias :: Integer -> Integer -> Integer -> Integer
+? que dados tres naturales q; n; m sume todas las potencias
+? de la forma q^a+b con 1 <= a <= n y 1 <= b <= m.
+
+problema sumatoria (n: Z, m: Z) : Z {
+  requiere: { n > 0 }
+  asegura: { resultado = sumatoria }
+}
+-}
+
+sumaPotenciasInterna :: Integer -> Integer -> Integer
+sumaPotenciasInterna q 0 = 0
+sumaPotenciasInterna q m = q^m + sumaPotenciasInterna q (m - 1)
+
+sumaPotencias :: Integer -> Integer -> Integer -> Integer
+sumaPotencias 0 _ _ = 0
+sumaPotencias q m n = sumaPotenciasInterna q m * sumaPotenciasInterna q n
