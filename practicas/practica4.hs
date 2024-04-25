@@ -35,13 +35,10 @@ problema parteEntera (x: R) : Z {
 }
 -}
 
-entero :: Float -> Integer
-entero = truncate
-
 parteEntera :: Float -> Integer
-parteEntera x | 0 <= x && x < 1 = 0
-               | x > 1 = 1 + parteEntera (x - 1)
-               | x < 0 = (-1) + parteEntera (x + 1)
+parteEntera n | 0 <= n && n < 1 = 0
+               | n >= 1 = 1 + parteEntera (n - 1)
+               | otherwise = (-1) + parteEntera (n + 1)
 
 {-
 ! Ejercicio 3.
