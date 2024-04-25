@@ -1,3 +1,4 @@
+module Practica4 where
 {-
 ! Ejercicio 1.
 
@@ -187,7 +188,7 @@ eAprox n
   = eAprox (n - 1) + 1/factorial n
  where factorial 0 = 1
        factorial 1 = 1
-       factorial n = factorial(n - 1)* fromIntegral n
+       factorial n = factorial (n - 1)* fromIntegral n
 
 e :: Float
 e = eAprox 10
@@ -240,3 +241,31 @@ sumaPotenciasInterna q m = q^m + sumaPotenciasInterna q (m - 1)
 sumaPotencias :: Integer -> Integer -> Integer -> Integer
 sumaPotencias 0 _ _ = 0
 sumaPotencias q m n = sumaPotenciasInterna q m * sumaPotenciasInterna q n
+
+{-
+! Ejercicio 15.
+? Especificar e implementar una función sumaRacionales :: Integer -> Integer -> Float
+? que dados dos naturales n;m sume todos los números racionales de la forma p/q con 1 <= p <= n
+? y 1 <= q <= m, es decir:
+-}
+sumaRacionalesAux :: Integer -> Integer -> Float
+sumaRacionalesAux _ 0 = 0
+sumaRacionalesAux n m = fromIntegral n / fromIntegral m + sumaRacionalesAux n (m - 1)
+
+sumaRacionales :: Integer -> Integer -> Float
+sumaRacionales 0 _ = 0
+sumaRacionales n m = sumaRacionalesAux n m + sumaRacionales (n - 1) m
+
+-- ! Esjercicio 16
+{-
+? a) Implementar menorDivisor :: Integer ->Integer
+? que calcule el menor divisor (mayor que 1) de un natural n pasado como parámetro.
+-}
+
+menorDivisorAux :: Integer -> Integer -> Integer
+menorDivisorAux n d
+ | mod n d == 0 = d
+ | otherwise = menorDivisorAux n (d + 1)
+
+menorDivisor :: Integer -> Integer
+menorDivisor n = menorDivisorAux n 2
