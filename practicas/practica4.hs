@@ -1,8 +1,11 @@
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+{-# HLINT ignore "Use even" #-}
+{-# HLINT ignore "Use odd" #-}
 module Practica4 where
 {-
 ! Ejercicio 1.
 
-? Implementar la función fibonacci:: Integer->Integer que devuelve el i-ésimo número de Fibonacci.
+? Implementar la función fibonacci:: Integer -> Integer que devuelve el i-ésimo número de Fibonacci.
 ? Recordar que la secuencia de Fibonacci se define como:
 
             0 si n = 0
@@ -15,7 +18,7 @@ problema fibonacci (n: Z) : Z {
 }
 -}
 
-fibonacci :: Int -> Int
+fibonacci :: Integer -> Integer
 -- fibonacci n | n == 0 || n == 1 = n
 --             | otherwise = fibonacci (n - 1) + fibonacci (n - 2)
 
@@ -259,10 +262,100 @@ sumaRacionales n m = sumaRacionalesAux n m + sumaRacionales (n - 1) m
 ? que calcule el menor divisor (mayor que 1) de un natural n pasado como parámetro.
 -}
 
-menorDivisorAux :: Integer -> Integer -> Integer
-menorDivisorAux n d
- | mod n d == 0 = d
- | otherwise = menorDivisorAux n (d + 1)
-
 menorDivisor :: Integer -> Integer
 menorDivisor n = menorDivisorAux n 2
+                where menorDivisorAux n d
+                        | mod n d == 0 = d
+                        | otherwise = menorDivisorAux n (d + 1)
+
+{-
+? b) Implementar la función esPrimo :: Integer -> Bool
+? que indica si un número natural pasado como parámetro es primo.
+-}
+
+esPrimo :: Integer -> Bool
+esPrimo n = menorDivisor n == n
+
+{-
+? c)  Implementar la función sonCoprimos :: Integer -> Integer -> Bool
+? que dados dos números naturales indica si no tienen algún divisor
+? en común mayor estricto que 1.
+-}
+
+sonCoprimos :: Integer -> Integer -> Bool
+sonCoprimos n m = menorDivisor n /= menorDivisor m
+
+{-
+? d) Implementar la función nEsimoPrimo :: Integer -> Integer
+? que devuelve el nésimo primo (n >= 1). Recordar que el
+? primer primo es el 2, el segundo es el 3, el tercero es el 5, etc.
+-}
+
+nEsimoPrimo :: Integer -> Integer
+nEsimoPrimo 1 = 2
+nEsimoPrimo n = proxPrimo (nEsimoPrimo (n - 1))
+              where proxPrimo n | esPrimo (n + 1) = n + 1
+                                | otherwise  = proxPrimo (n + 1)
+
+{-
+! Ejercicio 17.
+? Implementar la función esFibonacci :: Integer -> Bool
+? según la siguiente especificación:
+
+problema esFibonacci (n: Z) : B {
+ requiere: { n >= 0 }
+ asegura: { resultado = true $ n es algún valor de la secuencia de Fibonacci definida en el ejercicio 1 }
+}
+-}
+esFibonacci :: Integer -> Bool
+esFibonacci n = pasoRecursivo n 0
+              where pasoRecursivo n i | fibonacci i == n = True
+                                      | fibonacci i > n = False
+                                      | otherwise = pasoRecursivo n (i + 1)
+
+ {-
+! Ejercicio 18.
+? Implementar una función mayorDigitoPar :: Integer -> Integer
+? según la siguiente especificación:
+
+problema mayorDigitoPar (n: N) : N {
+  requiere: { True }
+  asegura: { resultado es el mayor de los dígitos pares de n. Si n no tiene ningún dígito par, entonces resultado es -1.
+}
+
+ -}
+mayorDigitoPar :: Integer -> Integer
+mayorDigitoPar n
+ | casoBase1 = n
+ | casoBase2 = -1
+ | esPar = maximo
+ | otherwise = recursivo
+ where casoBase1 = n < 10 && esPar
+       casoBase2 = n < 10
+       esPar = mod n 2 == 0
+       ultimo n = mod n 10
+       quitaUltimo = div n 10
+       recursivo = mayorDigitoPar quitaUltimo
+       maximo | mod n 10 > mayorDigitoPar quitaUltimo = mod n 10
+              | otherwise = mayorDigitoPar quitaUltimo
+
+{-
+! Ejercicio 19.
+? Implementar la funición esSumaInicialDePrimos :: Int -> Bool
+? según la siguiente especificación:
+
+problema esSumaInicialDePrimos (n: Z) : B f
+  requiere: { n >= 0 }
+  asegura: { resultado = true <-> n es igual a la suma de los m primeros números primos, para algún m.}
+
+-}
+esSumaInicialDePrimos :: Int -> Bool
+esSumaInicialDePrimos 0 = False
+esSumaInicialDePrimos n = n == sumaDePrimerosPrimos n
+                        where  sumaDePrimerosPrimos n | n == 1 = 0
+                                                      | esNumPrimo (n - 1) = n - 1 + sumaDePrimerosPrimos (n - 1)
+                                                      | otherwise = sumaDePrimerosPrimos (n - 1)
+                               esNumPrimo n = noTieneDivisores n 2
+                               noTieneDivisores n i | n == i || i == 1 = True
+                                                    | n == 1 || mod n i == 0 = False
+                                                    | otherwise = noTieneDivisores n (i + 1)
