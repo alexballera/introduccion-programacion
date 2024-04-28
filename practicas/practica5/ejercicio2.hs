@@ -6,6 +6,8 @@ lista1 :: [String]
 lista1 = ["azul", "rojo", "amarillo", "naranja", "marron"]
 lista2 :: [String]
 lista2 = ["manzana", "pera", "mango", "coco"]
+lista3 :: [String]
+lista3 = ["a", "a", "a", "a"]
 
 -- ! Ejercicio 2. Definir las siguientes funciones sobre listas
 
@@ -24,6 +26,20 @@ pertenece :: (Eq t) => t -> [t] -> Bool
 pertenece _ [] = False
 pertenece x (y:ys) | x == y = True
                    | otherwise = pertenece x ys
+
+-- ? 2. todosIguales :: (Eq t) => [t] -> Bool,
+todosIguales :: (Eq t) => [t] -> Bool
+todosIguales [] = True
+todosIguales (x:y:xs) | x == y = todosIguales xs
+                      | otherwise = False
+
+-- ? 3. todosDistintos :: (Eq t) => [t] -> Bool
+todosDistintos :: (Eq t) => [t] -> Bool
+todosDistintos [] = True
+todosDistintos (x:xs) | primeroDistinto (x:xs) = todosDistintos xs
+                      | otherwise = False
+                      where primeroDistinto [x] = True
+                            primeroDistinto (x:y:xs) = x /= y && primeroDistinto (x:xs)
 
 -- ? 4 hayRepetidos
 {-
@@ -57,7 +73,7 @@ quitar x (y:ys)
  | otherwise = y:quitar x ys
 
 -- ! TESTS
--- ? 2.1 pertenece
+-- ? 1 pertenece
 testPertenece :: Test
 testPertenece = test [
   "[]:" ~: pertenece "" [] ~=? False,
@@ -66,7 +82,28 @@ testPertenece = test [
   "Manzana pertenece:" ~: pertenece "manzana" lista2 ~=? True,
   "Limon no pertenece:" ~: pertenece "limon" lista2 ~=? False
  ]
+
+ -- ? 2 todosIguales
+testTodosIguales :: Test
+testTodosIguales = test [
+  "Caso lista1" ~: todosIguales lista1 ~=? False,
+  "Caso lista2" ~: todosIguales lista2 ~=? False,
+  "Caso lista3" ~: todosIguales lista3 ~=? True
+ ]
+
+-- ? todosDistintos
+testTodosDistintos :: Test
+testTodosDistintos = test [
+  "Caso lista1" ~: todosDistintos lista1 ~=? True,
+  "Caso lista2" ~: todosDistintos lista2 ~=? True,
+  "Caso lista3" ~: todosDistintos lista3 ~=? False
+ ]
+
 tests :: Test
 tests = TestList [
-  TestLabel "testPertenece" testPertenece
+  TestLabel "testPertenece" testPertenece,
+  TestLabel "testTodosIguales" testTodosIguales,
+  TestLabel "testTodosDistintos" testTodosDistintos
  ]
+
+correrTest = runTestTT tests

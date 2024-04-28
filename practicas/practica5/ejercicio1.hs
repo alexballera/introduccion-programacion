@@ -1,6 +1,7 @@
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
 {-# HLINT ignore "Use foldr" #-}
 {-# HLINT ignore "Use map" #-}
+module Ejercicio1 where
 import Test.HUnit
 lista1 :: [String]
 lista1 = ["azul", "rojo", "amarillo", "naranja", "marron"]
