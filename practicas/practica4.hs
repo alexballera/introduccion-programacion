@@ -359,3 +359,24 @@ esSumaInicialDePrimos n = n == sumaDePrimerosPrimos n
                                noTieneDivisores n i | n == i || i == 1 = True
                                                     | n == 1 || mod n i == 0 = False
                                                     | otherwise = noTieneDivisores n (i + 1)
+
+{-
+! Ejercicio 21.
+? Especificar e implementar una funcióon pitagoras :: Integer -> Integer -> Integer -> Integer
+? que dados m, n , r E N>=0, cuente cuántos pares (p; q) con 0 <= p <= m y 0 <= q <= n satisfacen que p2 + q2 <= r2. Por ejemplo:
+pitagoras 3 4 5   20
+pitagoras 3 4 2   6
+-}
+esMenorPitagoriano :: Integer->Integer->Integer->Bool
+esMenorPitagoriano p q r = p^2 + q^2 <= r^2
+
+pitagorasNFijo :: Integer -> Integer -> Integer -> Integer
+pitagorasNFijo n m r | m < 0 = 0
+                     | esMenorPitagoriano n m r = 1 + pitagorasNFijo n (m - 1) r
+                     | otherwise = pitagorasNFijo n (m - 1) r
+
+pitagoras :: Integer -> Integer -> Integer -> Integer
+pitagoras n m r | n == 0 = pitagorasNFijo 0 m r
+                | otherwise = pitagorasNFijo n m r + pitagoras (n - 1) m r
+
+

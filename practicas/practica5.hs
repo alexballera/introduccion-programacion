@@ -1,3 +1,4 @@
+import Test.HUnit
 {-
 ! Ejercicio 2.1
 
@@ -14,7 +15,18 @@ pertenece :: (Eq t) => t -> [t] -> Bool
 
 pertenece _ [] = False
 pertenece x (y:ys) | x == y = True
-                   | otherwise = pertenece x ys 
+                   | otherwise = pertenece x ys
+
+testPertenece :: Test
+lista1 = ["azul", "rojo", "amarillo", "naranja"]
+lista2 = ["manzana", "pera", "mango", "coco"]
+testPertenece = test [
+  "[]:" ~: pertenece "" [] ~=? False,
+  "Azul pertenece:" ~: pertenece "azul" lista1 ~=? True,
+  "Verde no pertenece:" ~: pertenece "verde" lista1 ~=? False,
+  "Manzana pertenece:" ~: pertenece "manzana" lista2 ~=? False,
+  "Limon no pertenece:" ~: pertenece "limon" lista2 ~=? False
+ ]
 
 {-
 ! Ejercicio 2.4
@@ -31,7 +43,7 @@ Sugerencia: Utilizar la funci´on pertenece del ej 2.1
 
 hayRepetidos :: (Eq t) => [t] -> Bool
 hayRepetidos [] = False
-hayRepetidos (x:xs) = (pertenece x xs) || hayRepetidos xs
+hayRepetidos (x:xs) = pertenece x xs || hayRepetidos xs
 
 {-
 ! Ejercicio 2.5
@@ -45,7 +57,7 @@ quitar :: (Eq t) => t -> [t] -> [t]
 quitar _ [] = []
 quitar x (y:ys)
  | x == y = ys
- | otherwise = y:(quitar x ys )
+ | otherwise = y:quitar x ys
 
 {-
 ! Ejercicio 3.3
@@ -67,6 +79,15 @@ maximo (x:y:ys)
 maximoB :: [Int] -> Int
 maximoB [x] = x
 maximoB (x:xs)
- | x > head(xs) = maximoB (x:tail(xs))
+ | x > head xs = maximoB (x:tail xs)
  | otherwise = maximoB xs
 
+
+-- TESTS
+tests :: Test
+tests = TestList [
+  TestLabel "testPertenece" testPertenece
+ ]
+
+correrTest :: IO Counts
+correrTest = runTestTT tests
