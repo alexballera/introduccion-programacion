@@ -61,7 +61,7 @@ quitar :: (Eq t) => t -> [t] -> [t]
 quitar _ [] = []
 quitar x (y:ys)
  | x == y = ys
- | otherwise = y:quitar x ys
+ | otherwise = y : quitar x ys
 
 -- ? 6. quitarTodos
 quitarTodos :: (Eq t) => t -> [t] -> [t]
@@ -70,6 +70,15 @@ quitarTodos n (x:xs) | n == x = quitarTodos n xs
                      | otherwise = x : quitarTodos n xs
 
 -- ? 7. eliminarRepetidos
+{- eliminarRepetidos :: (Eq t) => t -> [t] -> [t]
+eliminarRepetidos [x] = [x] 
+eliminarRepetidos (x:y:xs) | x == y = eliminarRepetidos (x:xs)
+                           | otherwise = y : eliminarRepetidos (x:xs) -}
+
+chequearPrimero :: (Eq t) => [t] -> [t]
+chequearPrimero [x] = [x]
+chequearPrimero (x:y:xs) | x == y = chequearPrimero (x:xs)
+                         | otherwise = y : chequearPrimero xs
 
 -- ! TESTS
 -- ? 1 pertenece
@@ -113,6 +122,13 @@ testQuitarTodos = test [
   "Quitar todos repetidos" ~: quitarTodos "azul" lista3 ~=? ["a", "a", "a", "a"]
  ]
 
+-- ? 7. eliminarRepetidos
+{- testEliminarRepetidos :: Test
+testEliminarRepetidos = test [
+  "testEliminarRepetidos" ~: eliminarRepetidos ["a", "a", "a", "a"] ~=? ["a"],
+  "testEliminarRepetidos" ~: eliminarRepetidos ["a", "a", "b", "a", "a", "b"] ~=? ["a", "b"],
+  "testEliminarRepetidos" ~: eliminarRepetidos ["a", "b", "b", "a", "a", "c"] ~=? ["a", "b", "c"]
+ ] -}
 tests :: Test
 tests = TestList [
   TestLabel "testPertenece" testPertenece,
@@ -120,6 +136,7 @@ tests = TestList [
   TestLabel "testTodosDistintos" testTodosDistintos,
   TestLabel "testHayRepetidos" testHayRepetidos,
   TestLabel "testQuitarTodos" testQuitarTodos
+  -- TestLabel "testEliminarRepetidos" testEliminarRepetidos
  ]
 
 correrTest = runTestTT tests
