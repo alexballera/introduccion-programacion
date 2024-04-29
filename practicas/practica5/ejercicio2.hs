@@ -69,6 +69,8 @@ quitarTodos _ [] = []
 quitarTodos n (x:xs) | n == x = quitarTodos n xs
                      | otherwise = x : quitarTodos n xs
 
+-- ? 7. eliminarRepetidos
+
 -- ! TESTS
 -- ? 1 pertenece
 testPertenece :: Test
@@ -91,7 +93,7 @@ testTodosIguales = test [
 -- ? todosDistintos
 testTodosDistintos :: Test
 testTodosDistintos = test [
-  "Caso lista1" ~: todosDistintos lista1 ~=? True,
+  "Caso lista1" ~: todosDistintos lista1 ~=? False,
   "Caso lista2" ~: todosDistintos lista2 ~=? True,
   "Caso lista3" ~: todosDistintos lista3 ~=? False
  ]
@@ -99,9 +101,16 @@ testTodosDistintos = test [
 -- ? hayRepetidos
 testHayRepetidos :: Test
 testHayRepetidos = test [
-  "Caso lista1" ~: hayRepetidos lista1 ~=? False,
+  "Caso lista1" ~: hayRepetidos lista1 ~=? True,
   "Caso lista2" ~: hayRepetidos lista2 ~=? False,
   "Caso lista3" ~: hayRepetidos lista3 ~=? True
+ ]
+
+-- ? 6. quitarTodos
+testQuitarTodos :: Test
+testQuitarTodos = test [
+  "Quitar todos repetidos" ~: quitarTodos "azul" lista1 ~=? ["rojo", "amarillo", "naranja", "marron"],
+  "Quitar todos repetidos" ~: quitarTodos "azul" lista3 ~=? ["a", "a", "a", "a"]
  ]
 
 tests :: Test
@@ -109,7 +118,8 @@ tests = TestList [
   TestLabel "testPertenece" testPertenece,
   TestLabel "testTodosIguales" testTodosIguales,
   TestLabel "testTodosDistintos" testTodosDistintos,
-  TestLabel "testHayRepetidos" testHayRepetidos
+  TestLabel "testHayRepetidos" testHayRepetidos,
+  TestLabel "testQuitarTodos" testQuitarTodos
  ]
 
 correrTest = runTestTT tests
