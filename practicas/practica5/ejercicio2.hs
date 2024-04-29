@@ -42,21 +42,12 @@ todosDistintos (x:xs) | primeroDistinto (x:xs) = todosDistintos xs
                             primeroDistinto (x:y:xs) = x /= y && primeroDistinto (x:xs)
 
 -- ? 4 hayRepetidos
-{-
-? Definir la siguiente función sobre listas:
-? hayRepetidos :: (Eq t) => [t] -> Bool
-problema hayRepetidos (s: seq⟨T ⟩) : B {
-  requiere: { T rue }
-  asegura: { resultado = true ↔ existen dos posiciones
-  distintas de s con igual valor }
-}
-Sugerencia: Utilizar la funci´on pertenece del ej 2.1
-}
--}
-
 hayRepetidos :: (Eq t) => [t] -> Bool
 hayRepetidos [] = False
-hayRepetidos (x:xs) = pertenece x xs || hayRepetidos xs
+hayRepetidos (x:xs) = comparaPrimero (x:xs)
+                    where comparaPrimero [x] = False 
+                          comparaPrimero (x:y:xs) | x == y = True 
+                                                  | otherwise = comparaPrimero (x:xs) 
 
 -- ? 5 quitar
 {-
@@ -99,11 +90,20 @@ testTodosDistintos = test [
   "Caso lista3" ~: todosDistintos lista3 ~=? False
  ]
 
+-- ? hayRepetidos
+testHayRepetidos :: Test
+testHayRepetidos = test [
+  "Caso lista1" ~: hayRepetidos lista1 ~=? False,
+  "Caso lista2" ~: hayRepetidos lista2 ~=? False,
+  "Caso lista3" ~: hayRepetidos lista3 ~=? True
+ ]
+
 tests :: Test
 tests = TestList [
   TestLabel "testPertenece" testPertenece,
   TestLabel "testTodosIguales" testTodosIguales,
-  TestLabel "testTodosDistintos" testTodosDistintos
+  TestLabel "testTodosDistintos" testTodosDistintos,
+  TestLabel "testHayRepetidos" testHayRepetidos
  ]
 
 correrTest = runTestTT tests
