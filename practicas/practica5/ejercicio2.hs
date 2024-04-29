@@ -3,7 +3,7 @@
 {-# HLINT ignore "Use map" #-}
 import Test.HUnit
 lista1 :: [String]
-lista1 = ["azul", "rojo", "amarillo", "naranja", "marron"]
+lista1 = ["azul", "rojo", "amarillo", "azul", "naranja", "marron", "azul"]
 lista2 :: [String]
 lista2 = ["manzana", "pera", "mango", "coco"]
 lista3 :: [String]
@@ -62,6 +62,12 @@ quitar _ [] = []
 quitar x (y:ys)
  | x == y = ys
  | otherwise = y:quitar x ys
+
+-- ? 6. quitarTodos
+quitarTodos :: (Eq t) => t -> [t] -> [t]
+quitarTodos _ [] = []
+quitarTodos n (x:xs) | n == x = quitarTodos n xs
+                     | otherwise = x : quitarTodos n xs
 
 -- ! TESTS
 -- ? 1 pertenece
