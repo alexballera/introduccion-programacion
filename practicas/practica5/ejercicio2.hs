@@ -3,11 +3,13 @@
 {-# HLINT ignore "Use map" #-}
 import Test.HUnit
 lista1 :: [String]
-lista1 = ["azul", "rojo", "amarillo", "azul", "naranja", "marron", "azul"]
+lista1 = ["azul", "rojo", "amarillo", "naranja", "marron"]
 lista2 :: [String]
 lista2 = ["manzana", "pera", "mango", "coco"]
 lista3 :: [String]
 lista3 = ["a", "a", "a", "a"]
+listaRepetidos :: [String]
+listaRepetidos = ["azul", "rojo", "marron", "amarillo", "azul", "rojo", "amarillo", "naranja", "marron", "azul"]
 
 -- ! Ejercicio 2. Definir las siguientes funciones sobre listas
 
@@ -45,9 +47,9 @@ todosDistintos (x:xs) | primeroDistinto (x:xs) = todosDistintos xs
 hayRepetidos :: (Eq t) => [t] -> Bool
 hayRepetidos [] = False
 hayRepetidos (x:xs) = comparaPrimero (x:xs)
-                    where comparaPrimero [x] = False 
-                          comparaPrimero (x:y:xs) | x == y = True 
-                                                  | otherwise = comparaPrimero (x:xs) 
+                    where comparaPrimero [x] = False
+                          comparaPrimero (x:y:xs) | x == y = True
+                                                  | otherwise = comparaPrimero (x:xs)
 
 -- ? 5 quitar
 {-
@@ -70,15 +72,12 @@ quitarTodos n (x:xs) | n == x = quitarTodos n xs
                      | otherwise = x : quitarTodos n xs
 
 -- ? 7. eliminarRepetidos
-{- eliminarRepetidos :: (Eq t) => t -> [t] -> [t]
-eliminarRepetidos [x] = [x] 
-eliminarRepetidos (x:y:xs) | x == y = eliminarRepetidos (x:xs)
-                           | otherwise = y : eliminarRepetidos (x:xs) -}
-
-chequearPrimero :: (Eq t) => [t] -> [t]
-chequearPrimero [x] = [x]
-chequearPrimero (x:y:xs) | x == y = chequearPrimero (x:xs)
-                         | otherwise = y : chequearPrimero xs
+eliminarRepetidos :: (Eq t) => [t] -> [t]
+eliminarRepetidos [] = []
+eliminarRepetidos (x:xs) = x:eliminarRepetidos (quitarTodosRepetidos x xs)
+                         where quitarTodosRepetidos _ [] = []
+                               quitarTodosRepetidos n (x:xs) | n == x = quitarTodosRepetidos n xs
+                                                             | otherwise = x : quitarTodosRepetidos n xs
 
 -- ! TESTS
 -- ? 1 pertenece
@@ -102,7 +101,7 @@ testTodosIguales = test [
 -- ? todosDistintos
 testTodosDistintos :: Test
 testTodosDistintos = test [
-  "Caso lista1" ~: todosDistintos lista1 ~=? False,
+  "Caso lista1" ~: todosDistintos lista1 ~=? True,
   "Caso lista2" ~: todosDistintos lista2 ~=? True,
   "Caso lista3" ~: todosDistintos lista3 ~=? False
  ]
@@ -110,7 +109,7 @@ testTodosDistintos = test [
 -- ? hayRepetidos
 testHayRepetidos :: Test
 testHayRepetidos = test [
-  "Caso lista1" ~: hayRepetidos lista1 ~=? True,
+  "Caso lista1" ~: hayRepetidos lista1 ~=? False,
   "Caso lista2" ~: hayRepetidos lista2 ~=? False,
   "Caso lista3" ~: hayRepetidos lista3 ~=? True
  ]
@@ -123,20 +122,20 @@ testQuitarTodos = test [
  ]
 
 -- ? 7. eliminarRepetidos
-{- testEliminarRepetidos :: Test
+testEliminarRepetidos :: Test
 testEliminarRepetidos = test [
-  "testEliminarRepetidos" ~: eliminarRepetidos ["a", "a", "a", "a"] ~=? ["a"],
-  "testEliminarRepetidos" ~: eliminarRepetidos ["a", "a", "b", "a", "a", "b"] ~=? ["a", "b"],
-  "testEliminarRepetidos" ~: eliminarRepetidos ["a", "b", "b", "a", "a", "c"] ~=? ["a", "b", "c"]
- ] -}
+  "testEliminarRepetidos" ~: eliminarRepetidos lista1 ~=? lista1,
+  "testEliminarRepetidos" ~: eliminarRepetidos lista3 ~=? ["a"],
+  "testEliminarRepetidos" ~: eliminarRepetidos listaRepetidos ~=? ["azul", "rojo", "marron", "amarillo", "naranja"]
+ ]
 tests :: Test
 tests = TestList [
   TestLabel "testPertenece" testPertenece,
   TestLabel "testTodosIguales" testTodosIguales,
   TestLabel "testTodosDistintos" testTodosDistintos,
   TestLabel "testHayRepetidos" testHayRepetidos,
-  TestLabel "testQuitarTodos" testQuitarTodos
-  -- TestLabel "testEliminarRepetidos" testEliminarRepetidos
+  TestLabel "testQuitarTodos" testQuitarTodos,
+  TestLabel "testEliminarRepetidos" testEliminarRepetidos
  ]
 
 correrTest = runTestTT tests
