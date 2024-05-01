@@ -36,6 +36,7 @@ reverso (x:xs) = ultimoA (x:xs) : reverso ( principioA (x:xs))
 {- reverso [] = []
 reverso (x:xs) = ultimo (x:xs) : reverso ( principio (x:xs)) -}
 
+-- ! Tests
 testReverso :: Test
 testReverso = test [
   "reverso lista1" ~: reverso lista1 ~=? ["c", "b", "a"],
