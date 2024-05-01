@@ -14,20 +14,10 @@ listaRepetidos = ["azul", "rojo", "marron", "amarillo", "azul", "rojo", "amarill
 -- ! Ejercicio 2. Definir las siguientes funciones sobre listas
 
 -- ? 1 pertenece :: (Eq t) => t -> [t] -> Bool
-{-
-según la siguiente especificación
 
-problema pertenece (e: T , s: seq⟨T ⟩) : B {
-  requiere: { T rue }
-  asegura: { resultado = true ↔ e ∈ s }
-}
--}
 
 pertenece :: (Eq t) => t -> [t] -> Bool
 
-pertenece _ [] = False
-pertenece x (y:ys) | x == y = True
-                   | otherwise = pertenece x ys
 
 -- ? 2. todosIguales :: (Eq t) => [t] -> Bool,
 todosIguales :: (Eq t) => [t] -> Bool
@@ -72,12 +62,34 @@ quitarTodos n (x:xs) | n == x = quitarTodos n xs
                      | otherwise = x : quitarTodos n xs
 
 -- ? 7. eliminarRepetidos
-eliminarRepetidos :: (Eq t) => [t] -> [t]
+{- eliminarRepetidos :: (Eq t) => [t] -> [t]
 eliminarRepetidos [] = []
-eliminarRepetidos (x:xs) = x:eliminarRepetidos (quitarTodosRepetidos x xs)
+eliminarRepetidos (x:xs) = eliminarRepetidos (eliminaPrimerRepetido x xs) -}
+
+existeRepetido :: (Eq t) => [t] -> Bool
+existeRepetido [x] = False
+existeRepetido (x:y:ys) | x == y = True
+                        | otherwise = existeRepetido (y:ys)
+
+eliminaPrimerRepetido :: (Eq t) => [t] -> [t] 
+eliminaPrimerRepetido [] = []
+eliminaPrimerRepetido (x:y:ys) | x == y = eliminaPrimerRepetido (y:ys)
+                               | otherwise = y : eliminaPrimerRepetido (x:ys)
+
+
+
+
+
+
+
+{- eliminarRepetidos [] = []
+eliminarRepetidos (x:xs) = x : eliminarRepetidos (quitarTodosRepetidos x xs)
                          where quitarTodosRepetidos _ [] = []
                                quitarTodosRepetidos n (x:xs) | n == x = quitarTodosRepetidos n xs
-                                                             | otherwise = x : quitarTodosRepetidos n xs
+                                                             | otherwise = x : quitarTodosRepetidos n xs -}
+
+-- ? 8. mismosElementos
+
 
 -- ! TESTS
 -- ? 1 pertenece
@@ -122,20 +134,20 @@ testQuitarTodos = test [
  ]
 
 -- ? 7. eliminarRepetidos
-testEliminarRepetidos :: Test
+{- testEliminarRepetidos :: Test
 testEliminarRepetidos = test [
   "testEliminarRepetidos" ~: eliminarRepetidos lista1 ~=? lista1,
   "testEliminarRepetidos" ~: eliminarRepetidos lista3 ~=? ["a"],
   "testEliminarRepetidos" ~: eliminarRepetidos listaRepetidos ~=? ["azul", "rojo", "marron", "amarillo", "naranja"]
- ]
+ ] -}
 tests :: Test
 tests = TestList [
   TestLabel "testPertenece" testPertenece,
   TestLabel "testTodosIguales" testTodosIguales,
   TestLabel "testTodosDistintos" testTodosDistintos,
   TestLabel "testHayRepetidos" testHayRepetidos,
-  TestLabel "testQuitarTodos" testQuitarTodos,
-  TestLabel "testEliminarRepetidos" testEliminarRepetidos
+  TestLabel "testQuitarTodos" testQuitarTodos
+  -- TestLabel "testEliminarRepetidos" testEliminarRepetidos
  ]
 
 correrTest = runTestTT tests
