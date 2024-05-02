@@ -17,6 +17,10 @@ lista6 :: [Integer]
 lista6 = [1,2,3,4,5,6,7,8,9]
 lista7 :: [Integer]
 lista7 = [1,2,3,4,5,6,7,8,9,1]
+lista8 :: [Integer]
+lista8 = [1,2,3,4,5,6,7,8,9,11]
+lista9 :: [Integer]
+lista9 = [1,2,3,4,5,6,7,8,9,11]
 
 -- ? 1. pertenece :: (Eq t) => t -> [t] -> Bool
 pertenece :: (Eq t) => t -> [t] -> Bool
@@ -54,7 +58,46 @@ quitarTodos _ [] = []
 quitarTodos n (x:xs) | n == x = quitarTodos n xs
                      | otherwise = x : quitarTodos n xs
 
+-- ? 7. eliminarRepetidos :: (Eq t) => [t] -> [t]
+eliminarRepetidos :: Eq a => [a] -> [a]
+eliminarRepetidos (x:xs) = x : quitarRepetidos x (x:xs)
+                         where quitarRepetidos _ [] = []
+                               quitarRepetidos n (x:xs) | n == x = quitarRepetidos n xs
+                                                        | otherwise = x : quitarRepetidos n xs
+
+-- ? 8. mismosElementos :: (Eq t) => [t] -> [t] -> Bool
+mismosElementos :: Eq t => [t] -> [t] -> Bool
+mismosElementos (x:xs) (y:ys) = todosPertenecen (x:xs) (y:ys) && todosPertenecen (y:ys) (x:xs)
+                              where
+                              todosPertenecen [] (y:ys) = True 
+                              todosPertenecen (x:xs) (y:ys) = primerElementoPertenece x (y:ys) && todosPertenecen xs (y:ys)
+                              primerElementoPertenece _ [] = False
+                              primerElementoPertenece x (y:ys) | x == y = True
+                                                              | otherwise = primerElementoPertenece x ys
+-- ? 9. capicua :: (Eq t) => [t] -> Bool
+reverso :: (Eq t) => [t] -> [t]
+reverso [] = []
+reverso (x:xs) = ultimo (x:xs)
+              where ultimo [x] = [x]
+                    ultimo (x:xs) = ultimo xs
 -- ! TESTS
+-- ? 8. mismosElementos 
+testMismosElementos :: Test
+testMismosElementos = test [
+  "testMismosElementos lista6 lista7" ~: mismosElementos lista6 lista7 ~=? True,
+  "testMismosElementos lista8 lista9" ~: mismosElementos lista8 lista9 ~=? True
+ ]
+
+
+-- ? 7. eliminarRepetidos
+testEliminarRepetidos :: Test
+testEliminarRepetidos = test [
+  "testEliminarRepetidos lista1" ~: eliminarRepetidos lista1 ~=? ["a", "b", "c"],
+  "testEliminarRepetidos lista4" ~: eliminarRepetidos lista4 ~=? ["a"],
+  "testEliminarRepetidos lista5" ~: eliminarRepetidos lista5 ~=? ["a", "b", "c", "d"],
+  "testEliminarRepetidos lista7" ~: eliminarRepetidos lista7 ~=? [1,2,3,4,5,6,7,8,9]
+ ]
+
 -- ? 6. quitarTodos
 testQuitarTodos :: Test
 testQuitarTodos = test [
@@ -118,7 +161,9 @@ tests = TestList [
   TestLabel "testTodosDistintos" testTodosDistintos,
   TestLabel "testHayRepetidos" testHayRepetidos,
   TestLabel "testQuitar" testQuitar,
-  TestLabel "testQuitarTodos" testQuitarTodos
+  TestLabel "testQuitarTodos" testQuitarTodos,
+  TestLabel "testEliminarRepetidos" testEliminarRepetidos,
+  TestLabel "testMismosElementos" testMismosElementos
  ]
 
 correrTests :: IO Counts
