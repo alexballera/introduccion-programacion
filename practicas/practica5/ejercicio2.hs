@@ -21,6 +21,8 @@ lista8 :: [Integer]
 lista8 = [1,2,3,4,5,6,7,8,9,11]
 lista9 :: [Integer]
 lista9 = [1,2,3,4,5,6,7,8,9,11]
+listaCapicua :: [String]
+listaCapicua = ["a", "b", "c", "b", "a"]
 
 -- ? 1. pertenece :: (Eq t) => t -> [t] -> Bool
 pertenece :: (Eq t) => t -> [t] -> Bool
@@ -75,12 +77,24 @@ mismosElementos (x:xs) (y:ys) = todosPertenecen (x:xs) (y:ys) && todosPertenecen
                               primerElementoPertenece x (y:ys) | x == y = True
                                                               | otherwise = primerElementoPertenece x ys
 -- ? 9. capicua :: (Eq t) => [t] -> Bool
-reverso :: (Eq t) => [t] -> [t]
-reverso [] = []
-reverso (x:xs) = ultimo (x:xs)
-              where ultimo [x] = [x]
-                    ultimo (x:xs) = ultimo xs
+capicua :: (Eq t) => [t] -> Bool
+capicua (x:xs) = (x:xs) == reverso (x:xs)
+            where
+            reverso [] = []
+            reverso (x:xs) = ultimo (x:xs) : reverso (quitarUltimo (x:xs))
+            ultimo [x] = x
+            ultimo (x:xs) = ultimo xs
+            quitarUltimo [x] = []
+            quitarUltimo (x:xs) = x : quitarUltimo xs
+
 -- ! TESTS
+-- ? 9. capicua
+testCapicua :: Test
+testCapicua = test [
+  "Es Capicua" ~: capicua listaCapicua ~=? True,
+  "No Es Capicua" ~: capicua lista1 ~=? False
+ ]
+
 -- ? 8. mismosElementos 
 testMismosElementos :: Test
 testMismosElementos = test [
@@ -163,7 +177,8 @@ tests = TestList [
   TestLabel "testQuitar" testQuitar,
   TestLabel "testQuitarTodos" testQuitarTodos,
   TestLabel "testEliminarRepetidos" testEliminarRepetidos,
-  TestLabel "testMismosElementos" testMismosElementos
+  TestLabel "testMismosElementos" testMismosElementos,
+  TestLabel "testCapicua" testCapicua
  ]
 
 correrTests :: IO Counts
