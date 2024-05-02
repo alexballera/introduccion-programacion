@@ -13,6 +13,10 @@ lista4 :: [String]
 lista4 = ["a", "a", "a", "a", "a"]
 lista5 :: [String]
 lista5 = ["a", "b", "c", "d", "a"]
+lista6 :: [Integer]
+lista6 = [1,2,3,4,5,6,7,8,9]
+lista7 :: [Integer]
+lista7 = [1,2,3,4,5,6,7,8,9,1]
 
 -- ? 1. pertenece :: (Eq t) => t -> [t] -> Bool
 pertenece :: (Eq t) => t -> [t] -> Bool
@@ -31,7 +35,54 @@ todosDistintos (x:xs) = primeroDistinto x xs && todosDistintos xs
                       where primeroDistinto _ [] = True
                             primeroDistinto n (x:xs) = n /= x && primeroDistinto n xs || False
 
+-- ? 4. hayRepetidos :: (Eq t) => [t] -> Bool
+hayRepetidos :: (Eq t) => [t] -> Bool
+hayRepetidos [] = False
+hayRepetidos (x:xs) = primeroRepetido (x:xs) || hayRepetidos xs
+                    where primeroRepetido [x] = False
+                          primeroRepetido (x:y:xs) | x /= y = primeroRepetido (x:xs)
+                                                   | otherwise = True
+-- ? 5. quitar :: (Eq t) => t -> [t] -> [t]
+quitar :: (Eq t) => t -> [t] -> [t]
+quitar _ [] = []
+quitar n (x:xs) | n == x = xs
+                | otherwise = x : quitar n xs
+
+-- ? 6. quitarTodos :: (Eq t ) => t -> [t] -> [t]
+quitarTodos :: (Eq t) => t -> [t] -> [t]
+quitarTodos _ [] = []
+quitarTodos n (x:xs) | n == x = quitarTodos n xs
+                     | otherwise = x : quitarTodos n xs
+
 -- ! TESTS
+-- ? 6. quitarTodos
+testQuitarTodos :: Test
+testQuitarTodos = test [
+  "testQuitarTodos 'a' lista4" ~: quitarTodos "a" lista4 ~=? [],
+  "testQuitarTodos 'a' lista5" ~: quitarTodos "a" lista5 ~=? ["b", "c", "d"],
+  "testQuitarTodos 1 lista6" ~: quitarTodos 1 lista6 ~=? [2,3,4,5,6,7,8,9],
+  "testQuitarTodos 1 lista7" ~: quitarTodos 1 lista7 ~=? [2,3,4,5,6,7,8,9]
+ ]
+-- ? 5. quitar
+testQuitar :: Test
+testQuitar = test [
+  "testQuitar 'a' lista1" ~: quitar "a" lista1 ~=? ["b", "c"],
+  "testQuitar 'b' lista2" ~: quitar "b" lista2 ~=? ["a", "c", "d", "e"],
+  "testQuitar 'c' lista3" ~: quitar "c" lista3 ~=? ["a", "b", "d", "e", "f", "g"],
+  "testQuitar 'b' lista4" ~: quitar "b" lista4 ~=? ["a", "a", "a", "a", "a"],
+  "testQuitar 'a' lista5" ~: quitar "a" lista5 ~=? ["b", "c", "d", "a"],
+  "testQuitar 1 lista6" ~: quitar 1 lista6 ~=? [2,3,4,5,6,7,8,9],
+  "testQuitar 1 lista7" ~: quitar 1 lista7 ~=? [2,3,4,5,6,7,8,9,1]
+ ]
+-- ? 4. hayRepetidos
+testHayRepetidos :: Test
+testHayRepetidos = test [
+  "testHayRepetidos lista1" ~: hayRepetidos lista1 ~=? False,
+  "testHayRepetidos lista2" ~: hayRepetidos lista2 ~=? False,
+  "testHayRepetidos lista3" ~: hayRepetidos lista3 ~=? False,
+  "testHayRepetidos lista4" ~: hayRepetidos lista4 ~=? True,
+  "testHayRepetidos lista5" ~: hayRepetidos lista5 ~=? True
+ ]
 -- ? 3. todosDistintos
 testTodosDistintos :: Test
 testTodosDistintos = test [
@@ -64,7 +115,10 @@ tests :: Test
 tests = TestList [
   TestLabel "testPertenece" testPertenece,
   TestLabel "testTodosIguales" testTodosIguales,
-  TestLabel "testTodosDistintos" testTodosDistintos
+  TestLabel "testTodosDistintos" testTodosDistintos,
+  TestLabel "testHayRepetidos" testHayRepetidos,
+  TestLabel "testQuitar" testQuitar,
+  TestLabel "testQuitarTodos" testQuitarTodos
  ]
 
 correrTests :: IO Counts
