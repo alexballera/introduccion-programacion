@@ -1,44 +1,31 @@
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
 {-# HLINT ignore "Use foldr" #-}
-{-# HLINT ignore "Use map" #-}
+module Ejercicio3 where
 import Test.HUnit
-lista1 :: [String]
-lista1 = ["azul", "rojo", "amarillo", "naranja", "marron"]
-lista2 :: [String]
-lista2 = ["manzana", "pera", "mango", "coco"]
 
--- ! Ejercicio 3. Definir las siguientes funciones sobre listas de enteros:
+lista1 :: [Integer]
+lista1 = [1,2,3,4,5,6,7,8,9]
+lista2 :: [Integer]
+lista2 = [1,2,3,4,5,6,7,8,9,10,11]
 
--- ? 3 maximo
-{-
-? Definir las siguientes funciones sobre listas de enteros
-
-problema maximo (s: seq⟨Z⟩) : Z {
-  requiere: { |s| > 0 }
-  asegura: { resultado ∈ s ∧ todo elemento de s es menor o
-  igual a resultado}
-}
--}
-
-maximo :: [Int] -> Int
-maximo [x] = x
-maximo (x:y:ys)
- | x > y = maximo (x:ys)
- | otherwise = maximo (y:ys)
-
-maximoB :: [Int] -> Int
-maximoB [x] = x
-maximoB (x:xs)
- | x > head xs = maximoB (x:tail xs)
- | otherwise = maximoB xs
-
+-- ? 1. sumatoria :: [Integer] -> Integer
+sumatoria :: [Integer] -> Integer
+sumatoria [] = 0
+sumatoria (x:xs) = x + sumatoria xs
 
 -- ! TESTS
--- ? 2.1 pertenece
-{- testPertenece :: Test
-testPertenece = test [
+-- ? 1. sumatoria 
+testSumatoria :: Test
+testSumatoria = test [
+  "Suma lista 1" ~: sumatoria lista1 ~=? 45,
+  "Suma lista 2" ~: sumatoria lista2 ~=? 66
  ]
+
 tests :: Test
 tests = TestList [
-  TestLabel "testPertenece" testPertenece
- ] -}
+  TestLabel "testSumatoria" testSumatoria
+ ]
+
+
+correrTests :: IO Counts
+correrTests = runTestTT tests
