@@ -51,14 +51,45 @@ pares [] = []
 pares (x:xs) | mod x 2 == 0 = x : pares xs
              | otherwise = pares xs
 
+-- ? 8. multiplosDeN :: Integer -> [Integer] -> [Integer]
+multiplosDeN :: Integer -> [Integer] -> [Integer]
+multiplosDeN _ [] = []
+multiplosDeN n (x:xs) | mod x n == 0 = x : multiplosDeN n xs
+                      | otherwise = multiplosDeN n xs
+
+-- ? 9. ordenar :: [Integer] -> [Integer]
+ordenar :: [Integer] -> [Integer]
+ordenar [] = []
+ordenar (x:xs) = numeroMayor (x:xs) : ordenar (quitarN (numeroMayor (x:xs)) (x:xs))
+                where
+                quitarN _ [] = []
+                quitarN n (x:xs) | n == x = quitarN n xs
+                                | otherwise = x : quitarN n xs
+                numeroMayor [x] = x
+                numeroMayor (x:y:xs) | x >= y = numeroMayor (x:xs)
+                                      | otherwise = numeroMayor (y:xs)
 -- ! TESTS
+-- ? 9. ordenar
+testOrdenar :: Test
+testOrdenar = test [
+  "ordenar lista1" ~: ordenar lista1 ~=? [9,8,7,6,5,4,3,2,1],
+  "ordenar lista2" ~: ordenar lista2 ~=? [11,10,9,8,7,6,5,4,3,2,1]
+ ]
+
+
+-- ? 8. multiplosDeN
+testMultiplosDeN :: Test
+testMultiplosDeN = test [
+  "multiplosDeN 2 linta1" ~: multiplosDeN 2 lista1 ~=? [2,4,6,8],
+  "multiplosDeN 3 linta1" ~: multiplosDeN 3 lista1 ~=? [3,6,9],
+  "multiplosDeN 4 linta1" ~: multiplosDeN 4 lista1 ~=? [4,8]
+ ]
 -- ? 7. pares
 testPares :: Test
 testPares = test [
   "pares lista1" ~: pares lista1 ~=? [2,4,6,8],
   "pares lista2" ~: pares lista2 ~=? [2,4,6,8,10]
  ]
-
 
 -- ? 6. sumarElUltimo
 testSumarElUltimo :: Test
@@ -108,7 +139,9 @@ tests = TestList [
   TestLabel "testSumarN" testSumarN,
   TestLabel "testSumarElPrimero" testSumarElPrimero,
   TestLabel "testSumarElUltimo" testSumarElUltimo,
-  TestLabel "testPares" testPares
+  TestLabel "testPares" testPares,
+  TestLabel "testMultiplosDeN" testMultiplosDeN,
+  TestLabel "testOrdenar" testOrdenar
  ]
 
 
