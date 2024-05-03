@@ -29,7 +29,19 @@ sumarN :: Integer -> [Integer] -> [Integer]
 sumarN _ [] = []
 sumarN n (x:xs) = n + x : sumarN n xs
 
+-- ? 5. sumarElPrimero :: [Integer] -> [Integer]
+sumarElPrimero :: [Integer] -> [Integer]
+sumarElPrimero (x:xs) = sumarX x (x:xs)
+                where
+                sumarX _ [] = []
+                sumarX n (x:xs) = n + x : sumarX n xs
 -- ! TESTS
+-- ? 5. sumarElPrimero
+testSumarElPrimero :: Test
+testSumarElPrimero = test [
+  "sumarElPrimero 2 lista1" ~: sumarElPrimero lista1 ~=? [2,3,4,5,6,7,8,9,10],
+  "sumarElPrimero 2 lista2" ~: sumarElPrimero lista2 ~=? [2,3,4,5,6,7,8,9,10,11,12]
+ ]
 -- ? 4. sumarN
 testSumarN :: Test
 testSumarN = test [
@@ -62,7 +74,8 @@ tests = TestList [
   TestLabel "testSumatoria" testSumatoria,
   TestLabel "testProductoria" testProductoria,
   TestLabel "testMaximo" testMaximo,
-  TestLabel "testSumarN" testSumarN
+  TestLabel "testSumarN" testSumarN,
+  TestLabel "testSumarElPrimero" testSumarElPrimero
  ]
 
 
