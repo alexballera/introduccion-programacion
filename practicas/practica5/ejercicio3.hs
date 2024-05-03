@@ -35,7 +35,25 @@ sumarElPrimero (x:xs) = sumarX x (x:xs)
                 where
                 sumarX _ [] = []
                 sumarX n (x:xs) = n + x : sumarX n xs
+
+-- ? 6. sumarElUltimo :: [Integer] -> [Integer]
+sumarElUltimo :: [Integer] -> [Integer]
+sumarElUltimo [] = []
+sumarElUltimo (x:xs) = mostrarUltimo (x:xs) + x : sumarElUltimo xs
+                      where
+                      mostrarUltimo [x] = x
+                      mostrarUltimo (x:xs) = mostrarUltimo xs
+
+
 -- ! TESTS
+-- ? 6. sumarElUltimo
+testSumarElUltimo :: Test
+testSumarElUltimo = test [
+  "sumarElUltimo lista1" ~: sumarElUltimo lista1 ~=? [10,11,12,13,14,15,16,17,18],
+  "sumarElUltimo lista2" ~: sumarElUltimo lista2 ~=? [12,13,14,15,16,17,18,19,20,21,22]
+ ]
+
+
 -- ? 5. sumarElPrimero
 testSumarElPrimero :: Test
 testSumarElPrimero = test [
@@ -75,7 +93,8 @@ tests = TestList [
   TestLabel "testProductoria" testProductoria,
   TestLabel "testMaximo" testMaximo,
   TestLabel "testSumarN" testSumarN,
-  TestLabel "testSumarElPrimero" testSumarElPrimero
+  TestLabel "testSumarElPrimero" testSumarElPrimero,
+  TestLabel "testSumarElUltimo" testSumarElUltimo
  ]
 
 
