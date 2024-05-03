@@ -1,5 +1,6 @@
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
 {-# HLINT ignore "Use foldr" #-}
+{-# HLINT ignore "Use even" #-}
 module Ejercicio3 where
 import Test.HUnit
 
@@ -44,15 +45,27 @@ sumarElUltimo (x:xs) = mostrarUltimo (x:xs) + x : sumarElUltimo xs
                       mostrarUltimo [x] = x
                       mostrarUltimo (x:xs) = mostrarUltimo xs
 
+-- ? 7. pares :: [Integer] -> [Integer]
+pares :: [Integer] -> [Integer]
+pares [] = []
+pares (x:xs) | mod x 2 == 0 = x : pares xs
+             | otherwise = pares xs
 
 -- ! TESTS
+-- ? 7. pares
+testPares :: Test
+testPares = test [
+  "pares lista1" ~: pares lista1 ~=? [2,4,6,8],
+  "pares lista2" ~: pares lista2 ~=? [2,4,6,8,10]
+ ]
+
+
 -- ? 6. sumarElUltimo
 testSumarElUltimo :: Test
 testSumarElUltimo = test [
   "sumarElUltimo lista1" ~: sumarElUltimo lista1 ~=? [10,11,12,13,14,15,16,17,18],
   "sumarElUltimo lista2" ~: sumarElUltimo lista2 ~=? [12,13,14,15,16,17,18,19,20,21,22]
  ]
-
 
 -- ? 5. sumarElPrimero
 testSumarElPrimero :: Test
@@ -94,7 +107,8 @@ tests = TestList [
   TestLabel "testMaximo" testMaximo,
   TestLabel "testSumarN" testSumarN,
   TestLabel "testSumarElPrimero" testSumarElPrimero,
-  TestLabel "testSumarElUltimo" testSumarElUltimo
+  TestLabel "testSumarElUltimo" testSumarElUltimo,
+  TestLabel "testPares" testPares
  ]
 
 
