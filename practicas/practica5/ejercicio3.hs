@@ -60,14 +60,14 @@ multiplosDeN n (x:xs) | mod x n == 0 = x : multiplosDeN n xs
 -- ? 9. ordenar :: [Integer] -> [Integer]
 ordenar :: [Integer] -> [Integer]
 ordenar [] = []
-ordenar (x:xs) = numeroMayor (x:xs) : ordenar (quitarN (numeroMayor (x:xs)) (x:xs))
+ordenar xs = numeroMenor xs : ordenar (quitarN (numeroMenor xs) xs)
                 where
                 quitarN _ [] = []
                 quitarN n (x:xs) | n == x = quitarN n xs
                                 | otherwise = x : quitarN n xs
-                numeroMayor [x] = x
-                numeroMayor (x:y:xs) | x >= y = numeroMayor (x:xs)
-                                      | otherwise = numeroMayor (y:xs)
+                numeroMenor [x] = x
+                numeroMenor (x:y:xs) | x <= y = numeroMenor (x:xs)
+                                      | otherwise = numeroMenor (y:xs)
 -- ! TESTS
 -- ? 9. ordenar
 testOrdenar :: Test
@@ -76,7 +76,6 @@ testOrdenar = test [
   "ordenar lista2" ~: ordenar lista2 ~=? [11,10,9,8,7,6,5,4,3,2,1]
  ]
 
-
 -- ? 8. multiplosDeN
 testMultiplosDeN :: Test
 testMultiplosDeN = test [
@@ -84,6 +83,7 @@ testMultiplosDeN = test [
   "multiplosDeN 3 linta1" ~: multiplosDeN 3 lista1 ~=? [3,6,9],
   "multiplosDeN 4 linta1" ~: multiplosDeN 4 lista1 ~=? [4,8]
  ]
+
 -- ? 7. pares
 testPares :: Test
 testPares = test [
@@ -104,18 +104,21 @@ testSumarElPrimero = test [
   "sumarElPrimero 2 lista1" ~: sumarElPrimero lista1 ~=? [2,3,4,5,6,7,8,9,10],
   "sumarElPrimero 2 lista2" ~: sumarElPrimero lista2 ~=? [2,3,4,5,6,7,8,9,10,11,12]
  ]
+
 -- ? 4. sumarN
 testSumarN :: Test
 testSumarN = test [
   "sumar 2 lista1" ~: sumarN 2 lista1 ~=? [3,4,5,6,7,8,9,10,11],
   "sumar 2 lista2" ~: sumarN 2 lista2 ~=? [3,4,5,6,7,8,9,10,11,12,13]
  ]
+
 -- ? 3. maximo
 testMaximo :: Test
 testMaximo = test [
   "maximo lista1" ~: maximo lista1 ~=? 9,
   "maximo lista2" ~: maximo lista2 ~=? 11
  ]
+
 -- ? 2. productoria
 testProductoria :: Test
 testProductoria = test [
@@ -130,7 +133,6 @@ testSumatoria = test [
   "Suma lista 2" ~: sumatoria lista2 ~=? 66
  ]
 
-
 tests :: Test
 tests = TestList [
   TestLabel "testSumatoria" testSumatoria,
@@ -143,7 +145,6 @@ tests = TestList [
   TestLabel "testMultiplosDeN" testMultiplosDeN,
   TestLabel "testOrdenar" testOrdenar
  ]
-
 
 correrTests :: IO Counts
 correrTests = runTestTT tests
