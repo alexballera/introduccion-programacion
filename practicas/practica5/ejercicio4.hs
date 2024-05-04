@@ -1,5 +1,7 @@
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
 {-# HLINT ignore "Use list literal pattern" #-}
+{-# HLINT ignore "Use foldr" #-}
+{-# HLINT ignore "Use null" #-}
 module Ejercicio4 where
 import Test.HUnit
 import Data.Bits (Bits(xor))
@@ -25,10 +27,64 @@ contarPalabras (x:y:xs) | x == y && x == ' ' = contarPalabras (sacarVaciosRepeti
                         | otherwise = contarPalabras (y:xs)
                         where sacarVaciosRepetidos [] = []
                               sacarVaciosRepetidos (x:[]) = [x]
-                              sacarVaciosRepetidos (x:y:xs) | x == y && x == ' ' = sacarVaciosRepetidos(y:xs)
-                                                            | otherwise = x: sacarVaciosRepetidos(y:xs)
+                              sacarVaciosRepetidos (x:y:xs) | x == y && x == ' ' = sacarVaciosRepetidos (y:xs)
+                                                            | otherwise = x: sacarVaciosRepetidos (y:xs)
+-- ? c) palabras :: [Char] -> [[Char]]
+palabras :: [Char] -> [[Char]]
+palabras [] = []
+palabras xs = primeraPalabra (sacarBlancosRepetidos xs) : palabras (eliminaPrimerEspacio (eliminaPrimeraPalabra (sacarBlancosRepetidos xs)))
+            where
+            primeraPalabra [] = []
+            primeraPalabra (x:xs) | x == ' ' = []
+                                  | otherwise = x : primeraPalabra xs
+            eliminaPrimeraPalabra [] = []
+            eliminaPrimeraPalabra (x:xs) | x == ' ' = xs
+                                        | otherwise = eliminaPrimeraPalabra xs
+            eliminaPrimerEspacio [] = []
+            eliminaPrimerEspacio (x:xs) | x == ' ' = xs
+                                        | otherwise = x:xs
+
+-- ? d) palabraMasLarga :: [Char] -> [Char]
+palabraMasLarga :: [Char] -> [Char]
+palabraMasLarga xs = laMasLarga (eliminaPrimerEspacio (eliminaUltimoEspacio (sacarBlancosRepetidos xs)))
+
+laMasLarga :: [Char] -> [Char]
+laMasLarga xs | eliminaPrimeraPalabra xs == [] = primeraPalabra xs
+              | lengthA (primeraPalabra xs) > lengthA (laMasLarga (eliminaPrimeraPalabra xs)) = primeraPalabra xs
+              | otherwise = laMasLarga (eliminaPrimeraPalabra xs)
+
+lengthA :: Num a1 => [a2] -> a1
+lengthA [] = 0
+lengthA (x:xs) = 1 + lengthA xs
+
+primeraPalabra :: [Char] -> [Char]
+primeraPalabra [] = []
+primeraPalabra (x:xs) | x == ' ' = []
+                      | otherwise = x : primeraPalabra xs
+
+eliminaPrimeraPalabra :: [Char] -> [Char]
+eliminaPrimeraPalabra [] = []
+eliminaPrimeraPalabra (x:xs) | x == ' ' = xs
+                            | otherwise = eliminaPrimeraPalabra xs
+
+eliminaPrimerEspacio :: [Char] -> [Char]
+eliminaPrimerEspacio [] = []
+eliminaPrimerEspacio (x:xs) | x == ' ' = xs
+                            | otherwise = x:xs
+
+eliminaUltimoEspacio :: [Char] -> [Char]
+eliminaUltimoEspacio [] = []
+eliminaUltimoEspacio (x:[]) | x == ' ' = []
+                            | otherwise = [x]
+eliminaUltimoEspacio (x:xs) = x : eliminaUltimoEspacio xs
 
 -- ? TESTS
+-- ? c) palabras
+testPalabras :: Test
+testPalabras = test [
+  "palabras lista 1" ~: palabras lista1 ~=? ["Ho","la","m","u","n","d","o"],
+  "palabras lista 2" ~: palabras lista2 ~=? ["Esta","es","una","prueba","de","haskell","con","hola","mundo"]
+ ]
 -- ? b) contarPalabras
 testContarPalabras :: Test
 testContarPalabras = test [
@@ -45,7 +101,8 @@ testSacarBlancosRepetidos = test [
 
 tests = TestList [
   TestLabel "testSacarBlancosRepetidos" testSacarBlancosRepetidos,
-  TestLabel "testContarPalabras" testContarPalabras
+  TestLabel "testContarPalabras" testContarPalabras,
+  TestLabel "testPalabras" testPalabras
  ]
 
 correrTests :: IO Counts
