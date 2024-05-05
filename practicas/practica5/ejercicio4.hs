@@ -4,7 +4,6 @@
 {-# HLINT ignore "Use null" #-}
 module Ejercicio4 where
 import Test.HUnit
-import Data.Bits (Bits(xor))
 
 lista1 :: String
 lista1 = "Ho    la m  u  n  d  o"
@@ -46,39 +45,35 @@ palabras xs = primeraPalabra (sacarBlancosRepetidos xs) : palabras (eliminaPrime
 
 -- ? d) palabraMasLarga :: [Char] -> [Char]
 palabraMasLarga :: [Char] -> [Char]
-palabraMasLarga xs = laMasLarga (eliminaPrimerEspacio (eliminaUltimoEspacio (sacarBlancosRepetidos xs)))
+palabraMasLarga xs =  eliminaEspacioFinal (laMasLarga xs)
+  where
+  laMasLarga [x] = [x]
+  laMasLarga xs | lengthA (primeraPalabra xs ) >= lengthA (laMasLarga (eliminaPrimeraPalabra xs)) = primeraPalabra xs
+                | otherwise = laMasLarga (eliminaPrimeraPalabra xs)
+  lengthA [] = 0
+  lengthA (x:xs) = 1 + lengthA xs
+  primeraPalabra [] = []
+  primeraPalabra (x:xs) | x /= ' ' = x : primeraPalabra xs
+                        | otherwise = [x]
+  eliminaPrimeraPalabra [x] = [x]
+  eliminaPrimeraPalabra (x:xs) | x == ' ' = xs
+                              | otherwise = eliminaPrimeraPalabra (eliminaEspacios xs)
+  eliminaEspacioFinal [] = []
+  eliminaEspacioFinal (x:xs) | x /= ' ' = x : eliminaEspacioFinal xs
+                            | otherwise = eliminaEspacioFinal xs
+  eliminaEspacios [x] = [x]
+  eliminaEspacios (x:y:xs) | x == y && y == ' ' = eliminaEspacios (x:xs)
+                          | otherwise = x : eliminaEspacios (y:xs)
 
-laMasLarga :: [Char] -> [Char]
-laMasLarga xs | eliminaPrimeraPalabra xs == [] = primeraPalabra xs
-              | lengthA (primeraPalabra xs) > lengthA (laMasLarga (eliminaPrimeraPalabra xs)) = primeraPalabra xs
-              | otherwise = laMasLarga (eliminaPrimeraPalabra xs)
-
-lengthA :: Num a1 => [a2] -> a1
-lengthA [] = 0
-lengthA (x:xs) = 1 + lengthA xs
-
-primeraPalabra :: [Char] -> [Char]
-primeraPalabra [] = []
-primeraPalabra (x:xs) | x == ' ' = []
-                      | otherwise = x : primeraPalabra xs
-
-eliminaPrimeraPalabra :: [Char] -> [Char]
-eliminaPrimeraPalabra [] = []
-eliminaPrimeraPalabra (x:xs) | x == ' ' = xs
-                            | otherwise = eliminaPrimeraPalabra xs
-
-eliminaPrimerEspacio :: [Char] -> [Char]
-eliminaPrimerEspacio [] = []
-eliminaPrimerEspacio (x:xs) | x == ' ' = xs
-                            | otherwise = x:xs
-
-eliminaUltimoEspacio :: [Char] -> [Char]
-eliminaUltimoEspacio [] = []
-eliminaUltimoEspacio (x:[]) | x == ' ' = []
-                            | otherwise = [x]
-eliminaUltimoEspacio (x:xs) = x : eliminaUltimoEspacio xs
 
 -- ? TESTS
+-- ? d) palabraMasLarga
+testPalabraMasLarga :: Test
+testPalabraMasLarga = test [
+  "palabraMasLarga lista1" ~: palabraMasLarga lista1 ~=? "Ho",
+  "palabraMasLarga lista2" ~: palabraMasLarga lista2 ~=? "haskell"
+ ]
+
 -- ? c) palabras
 testPalabras :: Test
 testPalabras = test [
@@ -102,7 +97,8 @@ testSacarBlancosRepetidos = test [
 tests = TestList [
   TestLabel "testSacarBlancosRepetidos" testSacarBlancosRepetidos,
   TestLabel "testContarPalabras" testContarPalabras,
-  TestLabel "testPalabras" testPalabras
+  TestLabel "testPalabras" testPalabras,
+  TestLabel "testPalabraMasLarga" testPalabraMasLarga
  ]
 
 correrTests :: IO Counts
