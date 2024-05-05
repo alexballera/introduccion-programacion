@@ -2,6 +2,7 @@
 {-# HLINT ignore "Use list literal pattern" #-}
 {-# HLINT ignore "Use foldr" #-}
 {-# HLINT ignore "Use null" #-}
+{-# HLINT ignore "Evaluate" #-}
 module Ejercicio4 where
 import Test.HUnit
 
@@ -57,16 +58,34 @@ palabraMasLarga xs =  eliminaEspacioFinal (laMasLarga xs)
                         | otherwise = [x]
   eliminaPrimeraPalabra [x] = [x]
   eliminaPrimeraPalabra (x:xs) | x == ' ' = xs
-                              | otherwise = eliminaPrimeraPalabra (eliminaEspacios xs)
+                               | otherwise = eliminaPrimeraPalabra (eliminaEspacios xs)
   eliminaEspacioFinal [] = []
   eliminaEspacioFinal (x:xs) | x /= ' ' = x : eliminaEspacioFinal xs
-                            | otherwise = eliminaEspacioFinal xs
+                             | otherwise = eliminaEspacioFinal xs
   eliminaEspacios [x] = [x]
   eliminaEspacios (x:y:xs) | x == y && y == ' ' = eliminaEspacios (x:xs)
-                          | otherwise = x : eliminaEspacios (y:xs)
+                           | otherwise = x : eliminaEspacios (y:xs)
+
+-- ? e) aplanar :: [[Char]] -> [Char]
+aplanar :: [[Char]] -> [Char]
+aplanar [] = []
+aplanar (x:xs) = x ++ aplanar xs
+
+-- ? f ) aplanarConBlancos :: [[Char]] -> [Char]
+aplanarConBlancos :: [[Char]] -> [Char]
+aplanarConBlancos [] = []
+aplanarConBlancos (xs:[]) = xs ++ []
+aplanarConBlancos (x:xs) = (x ++ " ") ++ aplanarConBlancos xs
+
 
 
 -- ? TESTS
+-- ? e) aplanar
+testAplanar :: Test
+testAplanar = test [
+  "aplanar lista1" ~: aplanar [lista1] ~=? "Ho    la m  u  n  d  o",
+  "aplanar lista2" ~: aplanar [lista2] ~=? "Esta  es una prueba     de haskell con    hola mundo"
+ ]
 -- ? d) palabraMasLarga
 testPalabraMasLarga :: Test
 testPalabraMasLarga = test [
@@ -98,7 +117,8 @@ tests = TestList [
   TestLabel "testSacarBlancosRepetidos" testSacarBlancosRepetidos,
   TestLabel "testContarPalabras" testContarPalabras,
   TestLabel "testPalabras" testPalabras,
-  TestLabel "testPalabraMasLarga" testPalabraMasLarga
+  TestLabel "testPalabraMasLarga" testPalabraMasLarga,
+  TestLabel "testAplanar" testAplanar
  ]
 
 correrTests :: IO Counts
