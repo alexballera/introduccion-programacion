@@ -10,6 +10,8 @@ lista1 :: String
 lista1 = "Ho    la m  u  n  d  o"
 lista2 :: String
 lista2 = "Esta  es una prueba     de haskell con    hola mundo"
+lista3 :: [String]
+lista3 = ["Esta","es","una","prueba","de","haskell","con","hola","mundo"]
 
 -- ? a) sacarBlancosRepetidos :: [Char] -> [Char]
 sacarBlancosRepetidos :: [Char] -> [Char]
@@ -74,17 +76,35 @@ aplanar (x:xs) = x ++ aplanar xs
 -- ? f ) aplanarConBlancos :: [[Char]] -> [Char]
 aplanarConBlancos :: [[Char]] -> [Char]
 aplanarConBlancos [] = []
-aplanarConBlancos (xs:[]) = xs ++ []
+aplanarConBlancos (x:[]) = x ++ []
 aplanarConBlancos (x:xs) = (x ++ " ") ++ aplanarConBlancos xs
 
-
+-- ? g) aplanarConNBlancos :: [[Char]] -> Integer -> [Char]
+aplanarConNBlancos :: [[Char]] -> Integer -> [Char]
+aplanarConNBlancos [] _ = []
+aplanarConNBlancos (x:[]) _ = x ++ []
+aplanarConNBlancos (x:xs) n = (x ++ nEspacios n) ++ aplanarConNBlancos xs n
+  where
+  nEspacios 0 = []
+  nEspacios n = " " ++ nEspacios (n - 1)
 
 -- ? TESTS
+-- ? g) aplanarConNBlancos
+testAplanarConNBlancos :: Test
+testAplanarConNBlancos = test [
+  "aplanarConNBlancos lista3 1" ~: aplanarConNBlancos lista3 1 ~=? "Esta es una prueba de haskell con hola mundo",
+  "aplanarConNBlancos lista3 2" ~: aplanarConNBlancos lista3 2 ~=? "Esta  es  una  prueba  de  haskell  con  hola  mundo",
+  "aplanarConNBlancos lista3 3" ~: aplanarConNBlancos lista3 3 ~=? "Esta   es   una   prueba   de   haskell   con   hola   mundo"
+ ]
+-- ? f ) aplanarConBlancos
+testAplanarConBlancos :: Test
+testAplanarConBlancos = test [
+  "aplanarConBlancos lista3" ~: aplanarConBlancos lista3 ~=? "Esta es una prueba de haskell con hola mundo"
+ ]
 -- ? e) aplanar
 testAplanar :: Test
 testAplanar = test [
-  "aplanar lista1" ~: aplanar [lista1] ~=? "Ho    la m  u  n  d  o",
-  "aplanar lista2" ~: aplanar [lista2] ~=? "Esta  es una prueba     de haskell con    hola mundo"
+  "aplanar lista2" ~: aplanar lista3 ~=? "Estaesunapruebadehaskellconholamundo"
  ]
 -- ? d) palabraMasLarga
 testPalabraMasLarga :: Test
@@ -118,7 +138,9 @@ tests = TestList [
   TestLabel "testContarPalabras" testContarPalabras,
   TestLabel "testPalabras" testPalabras,
   TestLabel "testPalabraMasLarga" testPalabraMasLarga,
-  TestLabel "testAplanar" testAplanar
+  TestLabel "testAplanar" testAplanar,
+  TestLabel "testAplanarConBlancos" testAplanarConBlancos,
+  TestLabel "testAplanarConNBlancos" testAplanarConNBlancos
  ]
 
 correrTests :: IO Counts
