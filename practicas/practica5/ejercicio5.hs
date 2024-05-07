@@ -23,10 +23,6 @@ sumaAcumulada xs = sumaAcumulada (quitarUltimo xs) ++ [sumarNumeros xs]
     sumarNumeros (x:xs) = x + sumarNumeros xs
 
 -- ? 2. descomponerEnPrimos :: [Integer] -> [[Integer]]
-mostrarPrimos :: Integer -> Integer -> [Integer]
-mostrarPrimos n i | n == i = [i]
- | mod n i == 0 = [i] ++ mostrarPrimos n (i + 1)
- | otherwise = mostrarPrimos n (i + 1)
 
 -- ? TESTS
 -- ? 1. sumaAcumulada
