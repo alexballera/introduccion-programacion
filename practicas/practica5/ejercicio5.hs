@@ -1,6 +1,7 @@
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
 {-# HLINT ignore "Use foldr" #-}
 {-# HLINT ignore "Use map" #-}
+{-# HLINT ignore "Use :" #-}
 module Ejercicio5 where
 import Test.HUnit
 
@@ -8,6 +9,8 @@ lista1 :: [Integer]
 lista1 = [1,2,3,4,5]
 lista2 :: [Integer]
 lista2 = [3,4,5,6,7,8,9]
+lista3 :: [Integer]
+lista3 = [2, 10, 6]
 
 -- ? 1. sumaAcumulada :: (Num t) => [t] -> [t]
 sumaAcumulada :: (Num t) => [t] -> [t]
@@ -18,6 +21,12 @@ sumaAcumulada xs = sumaAcumulada (quitarUltimo xs) ++ [sumarNumeros xs]
     quitarUltimo (x:xs) = x : quitarUltimo xs
     sumarNumeros [] = 0
     sumarNumeros (x:xs) = x + sumarNumeros xs
+
+-- ? 2. descomponerEnPrimos :: [Integer] -> [[Integer]]
+mostrarPrimos :: Integer -> Integer -> [Integer]
+mostrarPrimos n i | n == i = [i]
+ | mod n i == 0 = [i] ++ mostrarPrimos n (i + 1)
+ | otherwise = mostrarPrimos n (i + 1)
 
 -- ? TESTS
 -- ? 1. sumaAcumulada
