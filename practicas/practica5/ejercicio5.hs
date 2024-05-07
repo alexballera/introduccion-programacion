@@ -11,14 +11,9 @@ lista2 = [3,4,5,6,7,8,9]
 
 -- ? 1. sumaAcumulada :: (Num t) => [t] -> [t]
 sumaAcumulada :: (Num t) => [t] -> [t]
-sumaAcumulada xs = reverseLista (sumaAcumuladaAux xs)
+sumaAcumulada [] = []
+sumaAcumulada xs = sumaAcumulada (quitarUltimo xs) ++ [sumarNumeros xs]
   where
-    sumaAcumuladaAux [] = []
-    sumaAcumuladaAux xs = sumarNumeros xs : sumaAcumuladaAux (quitarUltimo xs)
-    reverseLista [] = []
-    reverseLista (x:xs) = mostrarUltimo (x:xs) : reverseLista (quitarUltimo (x:xs))
-    mostrarUltimo [x] = x
-    mostrarUltimo (x:xs) = mostrarUltimo xs
     quitarUltimo [x] = []
     quitarUltimo (x:xs) = x : quitarUltimo xs
     sumarNumeros [] = 0
