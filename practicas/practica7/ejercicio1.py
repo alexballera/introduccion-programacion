@@ -1,3 +1,4 @@
+s = [1,2,3]
 def sumaTotal(lista):
     i = 0
     suma = 0
@@ -6,5 +7,5 @@ def sumaTotal(lista):
         i += 1
     return suma
 
-suma = sumaTotal([1,2,3])
+suma = sumaTotal(s)
 print(suma)
