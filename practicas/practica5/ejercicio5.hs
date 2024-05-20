@@ -23,6 +23,23 @@ sumaAcumulada xs = sumaAcumulada (quitarUltimo xs) ++ [sumarNumeros xs]
     sumarNumeros (x:xs) = x + sumarNumeros xs
 
 -- ? 2. descomponerEnPrimos :: [Integer] -> [[Integer]]
+menorDivisorAux::Integer->Integer->Integer
+menorDivisorAux a i  | mod a i == 0 =i
+                     | otherwise = menorDivisorAux a (i+1)
+
+menorDivisor::Integer->Integer
+menorDivisor n = menorDivisorAux n 2
+--La recursion de menorDivisorAux arranca en 2 y va subiendo hasta encontrar el primer múltiplo
+
+factoresPrimos :: Integer -> [Integer]
+factoresPrimos 1 = []
+factoresPrimos n = menorFactor : factoresPrimos (div n menorFactor)
+        where menorFactor = menorDivisor n
+
+descomponerEnPrimos :: [Integer] -> [[Integer]]
+descomponerEnPrimos [] = []
+descomponerEnPrimos (x:xs) = factoresPrimos x : descomponerEnPrimos xs
+
 
 -- ? TESTS
 -- ? 1. sumaAcumulada
