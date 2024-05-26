@@ -35,8 +35,12 @@ personas xs = eliminaTodosRepetidos (listarTodas xs)
     pertenece p (x:xs) = p == x || pertenece p xs
 
 amigosDe :: String -> [(String, String)] -> [String]
-amigosDe "nadie" [] = ["nadie"]
--- esta mal. lo tenes que corregir
+amigosDe _ [] = ["nadie"]
+
+pertenece :: String -> [(String, String)] -> [String]
+pertenece _ [] = []
+pertenece p ((a,b):xs) | p == a || p == b = [a, b]
+ | otherwise = pertenece p xs
 
 personaConMasAmigos :: [(String, String)] -> String
 personaConMasAmigos [] = "yo"
