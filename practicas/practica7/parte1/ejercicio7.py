@@ -42,4 +42,4 @@ def fortaleza (password: str) -> str:
     print('AMARILLO')
 
 #fortaleza(sys.argv[1]) si quiero pasar parametros desde la consola
-fortaleza('1234dfgtRRF')
+fortaleza('dfgtRRF')
