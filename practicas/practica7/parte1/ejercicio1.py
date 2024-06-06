@@ -1,7 +1,15 @@
-lista: [int] = [1,2,3,4,5]
+lista: list[int] = [1,2,3,4,5]
 
 # 1. problema pertenece
-def pertenece_for(lista: [int], n: int) -> bool:
+def pertenece_for(lista: list[int], n: int) -> bool:
+    for i in range(0, len(lista), 1):
+        if (n == lista[i]):
+            print(f'{n} pertenece a la lista')
+            return True
+    print(f'{n} no pertenece a la lista')
+    return False
+            
+def pertenece_for_in(lista: list[int], n: int) -> bool:
     for num in lista:
         if num == n:
             print(f'{n} pertenece a la lista')
@@ -9,7 +17,7 @@ def pertenece_for(lista: [int], n: int) -> bool:
     print(f'{n} no pertenece a la lista')
     return False
 
-def pertenece_while(lista: [int], n: int) -> bool:
+def pertenece_while(lista: list[int], n: int) -> bool:
     i: int = 0
     while i < len(lista):
         if n == lista[i]:
@@ -18,7 +26,7 @@ def pertenece_while(lista: [int], n: int) -> bool:
         i += 1
     print(f'{n} no pertenece a la lista')
 
-def pertenece_do_while(lista: [int], n: int) -> bool:
+def pertenece_do_while(lista: list[int], n: int) -> bool:
     i: int = 0
     while True:
         if i < len(lista):
@@ -32,6 +40,8 @@ def pertenece_do_while(lista: [int], n: int) -> bool:
 # Ej 1.
 pertenece_for(lista, 5)
 pertenece_for(lista, 8)
+pertenece_for_in(lista, 5)
+pertenece_for_in(lista, 8)
 pertenece_while(lista, 5)
 pertenece_while(lista, 8)
 pertenece_do_while(lista, 5)

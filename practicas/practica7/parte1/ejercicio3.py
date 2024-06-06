@@ -1,7 +1,7 @@
-lista: [int] = [1,2,3,4,5]
+lista: list[int] = [1,2,3,4,5]
 
 # 3. problema suma total
-def suma_total_while(lista: [int]) -> int:
+def suma_total_while(lista: list[int]) -> int:
     i: int = 0
     suma: int = 0
     while i < len(lista):
@@ -9,7 +9,7 @@ def suma_total_while(lista: [int]) -> int:
         i += 1
     return suma
 
-def suma_total_do_while(lista: [int]) -> int:
+def suma_total_do_while(lista: list[int]) -> int:
     i: int = 0
     suma: int = 0
     while True:
@@ -18,15 +18,19 @@ def suma_total_do_while(lista: [int]) -> int:
         if i == len(lista):
             return suma
 
-def suma_total_for(lista: [int]) -> int:
+def suma_total_for(lista: list[int]) -> int:
+    suma: int = 0
+    for i in range(0, len(lista), 1):
+        suma = suma + lista[i]
+    return suma
+
+def suma_total_for_in(lista: list[int]) -> int:
     suma: int = 0
     for numero in lista:
         suma += numero
     return suma
 
-suma1 = suma_total_while(lista)
-print(suma1)
-suma2 = suma_total_do_while(lista)
-print(suma2)
-suma3 = suma_total_for(lista)
-print(suma3)
+print(suma_total_while(lista))
+print(suma_total_do_while(lista))
+print(suma_total_for(lista))
+print(suma_total_for_in(lista))
