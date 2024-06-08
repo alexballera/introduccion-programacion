@@ -28,6 +28,7 @@ def historial_movimientos() -> list[(str, int)]:
 
 # historial_movimientos()
 
+# Ejercicio 3
 def random_number() -> int:
   num: int = 8
   while(num == 8 or num == 9):
@@ -49,25 +50,24 @@ def seleccione_carta() -> list[int]:
         if ( suma > 7.5):
          print(f'Perdiste! \nResultado = {suma} \nCartas = {cartas}')
          jugar = 'No'
-         return cartas
+         return
         if ( suma == 7.5):
-         print('Ganaste!')
+         print(f'Ganaste! \nCartas = {cartas}')
          jugar = 'No'
-         print(cartas)
-         return cartas
+         return
       else:
         suma = suma + carta
         if ( suma > 7.5):
          print(f'Perdiste! \nResultado = {suma} \nCartas = {cartas}')
          jugar = 'No'
-         return cartas
+         return
         if ( suma == 7.5):
-         print('Ganaste!')
-         print(cartas)
+         print(f'Ganaste! \nCartas = {cartas}')
          jugar = 'No'
-         return cartas
+         return
       jugar = input(f'Resultado = {suma}, \nDesea seguir sacando otra carta? Si o No?: ').capitalize()
-  print(f'\nDecidiste no seguir jugando, \nresultado: {suma} \nCartas jugadas: {cartas}')
+  if (jugar == 'No'):
+   print(f'\nDecidiste no seguir jugando, \nresultado: {suma} \nCartas jugadas: {cartas}')
   return cartas
 
 seleccione_carta()
