@@ -18,7 +18,6 @@ def agregar_frase_al_principio2(nombre_archivo: str, frase : str):
   archivo.write(frase + '\n' + contenido)
   archivo.close()
 
-
 archivo = 'himno.txt'
 frase = 'Esta es la frase agregada al principio'
 agregar_frase_al_principio(archivo, frase)
