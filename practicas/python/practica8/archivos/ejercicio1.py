@@ -8,4 +8,4 @@ def contar_lineas(nombre_archivo: str) -> int:
   archivo.close()
   return contador
 
-contar_lineas('ahijado.txt')
+# contar_lineas('ahijado.txt')
