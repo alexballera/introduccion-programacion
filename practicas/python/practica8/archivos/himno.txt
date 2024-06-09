@@ -1,3 +1,4 @@
+Esta es la frase agregada al principio
 Oid mortales, el grito sagrado
 ¡Libertad! ¡Libertad! ¡Libertad!
 Oid el ruido de rotas cadenas
@@ -18,4 +19,3 @@ O juremos con gloria morir!
 ¡O juremos con gloria morir!
 ¡O juremos con gloria morir!
 ¡O juremos con gloria morir!
-Esta es la frase agregada al final
