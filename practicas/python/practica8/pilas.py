@@ -52,4 +52,66 @@ def buscar_el_maximo(p: Pila[int]) -> int:
   
   print(primer_elemento)
 
-buscar_el_maximo(generar_numeros_al_azar(cantidad, desde, hasta))
+# buscar_el_maximo(generar_numeros_al_azar(cantidad, desde, hasta))
+
+# Ej 11
+def esta_bien_balanceada(s: str) -> bool:
+  parentesis_apertura: int = 0
+  for elem in s:
+    if(elem == '('):
+      parentesis_apertura += 1
+    if (elem == ')'):
+      parentesis_apertura -= 1
+    if (parentesis_apertura < 0):
+      return False
+  if (parentesis_apertura > 0):
+    return False
+  return True
+
+def esta_bien_balanceada_con_pila(s: str) -> bool:
+  p = Pila()
+  for el in s[::-1]:
+    p.put(el)
+  
+  parentesis_apertura: int = 0
+  while (not p.empty()):
+    elem = p.get()
+    if (elem == '('):
+      parentesis_apertura += 1
+    if (elem == ')'):
+      parentesis_apertura -= 1
+    if (parentesis_apertura < 0):
+      return False
+  if (parentesis_apertura > 0):
+    return False
+  return True
+
+formulaTrue1 = '1 + (2 x 3 = (20 / 5 ) )'
+formulaTrue2 = '10 * (1 + (2 * (=1)))'
+formulaFalse = '1 + ) 2 x 3 ( ( )'
+# esta_bien_balanceada_con_pila(formulaFalse)
+
+# Ej 12
+def evaluar_expresion(s: str) -> float:
+  operandos = ['+', '-', '/', '*']
+  p = Pila()
+  tokens = s.split(" ")
+  for elem in tokens:
+    if('0' <= elem <= '9'):
+      p.put(elem)
+    elif (elem in operandos):
+      op2 = int(p.get(elem))
+      op1 = int(p.get(elem))
+      if(elem == '+'):
+        p.put(op1 + op2)
+      if(elem == '-'):
+        p.put(op1 - op2)
+      if(elem == '*'):
+        p.put(op1 * op2)
+      if(elem == '/'):
+        p.put(op1 / op2)
+  return p.get()
+
+expresion = "3 4 + 5 * 2 -"
+resultado = evaluar_expresion(expresion)
+print(resultado) # Deber´ıa devolver 33
