@@ -15,7 +15,6 @@
 
 # production
 /build
-
 /target
 
 # misc
@@ -28,6 +27,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
+/venv
 .env
 .env.local
 .env.development.local
