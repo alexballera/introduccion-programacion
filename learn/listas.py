@@ -79,3 +79,65 @@ lista1.clear()
 print(f'clear {lista1}')
 lista2[:]
 print(f'clear lista2[:] {lista2}')
+
+print()
+# Comprensión de listas
+# Una lista de comprensión consiste de corchetes rodeando
+# una expresión seguida de la declaración for y luego cero
+# o más declaraciones for o if. El resultado será una nueva
+# lista que sale de evaluar la expresión en el contexto de
+# los for o if que le siguen. Por ejemplo, esta lista de
+# comprensión combina los elementos de dos listas si no son iguales
+
+cuadrados = []
+for i in range(10):
+  cuadrados.append(i**2)
+print(f'cuadrados {cuadrados}')
+
+# lista_comprension1:
+lista_comprension1 = [x**2 for x in range(10)]
+print(f'lista_comprension1 {lista_comprension1}')
+print()
+combs = []
+for x in [1,2,3]:
+    for y in [3,1,4]:
+        if x != y:
+            combs.append((x, y))
+print(f'combs {combs}')
+
+# lista_comprension2:
+lista_comprension2 = [(x, y) for x in [1,2,3] for y in [3,1,4] if x != y]
+print(f'lista_comprension2 {lista_comprension2}')
+
+print()
+vec = [[1,2,3], [4,5,6], [7,8,9]]
+[num for elem in vec for num in elem]
+print(f'lista de lista {vec}')
+
+print()
+# Listas por comprensión anidadas (matrices)
+matrix = [
+    [1, 2, 3, 4],
+    [5, 6, 7, 8],
+    [9, 10, 11, 12],
+]
+print(f'matrix {matrix}')
+
+# transponder la matriz
+transpuesta = []
+for i in range(4):
+  transposed_row = []
+  for row in matrix:
+    transposed_row.append(row[i])
+  transpuesta.append(transposed_row)
+print(f'matriz transpuesta {transpuesta}')
+
+# matriz transpuesta usando comprensión
+transpuesta_comprension1 = []
+transpuesta_comprension1 = [[row[i] for row in matrix] for i in range(4)]
+print(f'matriz transpuesta_comprension1 {transpuesta_comprension1}')
+
+transpuesta_comprension2 = []
+for i in range(4):
+  transpuesta_comprension2.append([row[i] for row in matrix])
+print(f'matriz transpuesta_comprension2 {transpuesta_comprension2}')
