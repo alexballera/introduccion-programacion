@@ -62,9 +62,9 @@ print(f'reverse_for {reverse_for}')
 
 # reverse con while
 reverse_while = []
-i = len(lista2)
+i = len(lista1)
 while(i > 0):
-  reverse_while.append(lista2.pop())
+  reverse_while.append(lista1.pop())
   i -= 1
 print(f'reverse_while {reverse_while}')
 
