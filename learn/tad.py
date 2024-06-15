@@ -1,4 +1,5 @@
 # Pilas
+print('Pilas')
 from queue import LifoQueue as Pila
 
 pila1 = Pila()
@@ -28,6 +29,7 @@ print(f'lista3: {lista3}')
 print()
 
 # Colas
+print('Colas')
 import queue
 cola1 = queue.Queue()
 cola2 = queue.Queue()
