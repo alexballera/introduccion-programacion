@@ -3,15 +3,17 @@ lista2 = [1,2,3,4,5,6,7,8,9]
 lista3 = [1,2,3,4,5,6,7,8,9]
 lista4 = [1,2,3,4,5,6,7,8,9,10]
 
-print('list.pop()')
+print('lista1.pop()')
+print(f'lista1 = {lista1}')
 # list.pop() elimina el último elemento
 # list.pop([i]) elimina el elemento en la posición i
 lista1.pop() # elimina el último elemento
+print(f'pop() = {lista1}')
 lista1.pop(1) # elimina el elemento en la posición 1
-print(f'pop {lista1}')
+print(f'pop(1) = {lista1}')
 
 print()
-print('insert & remove')
+print('insert')
 
 # list.insert(i, x)
 # Inserta un ítem en una posición dada.
@@ -21,10 +23,13 @@ print('insert & remove')
 # a.insert(len(a), x) equivale a a.append(x)
 lista1.insert(1, 2)
 lista1.insert(len(lista1), 9) # equivale a a.append(x)
+print(f'lista1.insert(1, 2) & lista1.insert(len(lista1), 9) = {lista1}')
 
 # list.remove(x)
 # Quita el primer ítem de la lista1 cuyo valor sea x
+print('remove')
 lista1.remove(2)
+print(f'lista1.remove(2) = {lista1}')
 
 print()
 
@@ -146,12 +151,13 @@ print(f'matrix {matrix}')
 # transponder la matriz
 transpuesta = []
 for i in range(4):
-  transposed_row = []
+  row_transpuesta = []
   for row in matrix:
-    transposed_row.append(row[i])
-  transpuesta.append(transposed_row)
-print(f'matriz transpuesta {transpuesta}')
+    row_transpuesta.append(row[i])
+  transpuesta.append(row_transpuesta)
+print(f'transpuesta {transpuesta}')
 
+print()
 # matriz transpuesta usando comprensión
 print('matriz transpuesta usando comprensión')
 transpuesta_comprension1 = []
