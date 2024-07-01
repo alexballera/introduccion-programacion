@@ -61,7 +61,6 @@ M = [
 # res=[true,true,true,false,false]
 def indices_pares(lista: list[int]) -> list[int]:
   nueva_matriz = []
-  print(f'lista {lista}')
   for i in range(0, len(lista)):
     if (i % 2 == 0):
       nueva_matriz.append(lista[i])
@@ -69,10 +68,8 @@ def indices_pares(lista: list[int]) -> list[int]:
       
 def elem_en_pos_pares(matriz: list[list[int]], elem: int) -> list[bool]:
   res = []
-  nueva_matriz = []
   for linea in matriz:
     res.append(elem in indices_pares(linea))
-  print(nueva_matriz)
   return res
 
 elem_en_pos_pares(M, elem)
