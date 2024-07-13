@@ -94,3 +94,7 @@ digitoUnidades n = mod (absoluto n) 10
 -- 2j
 digitoDecenas :: Integer -> Integer
 digitoDecenas n = div (mod (absoluto n) 100) 10
+
+-- ! Ejercicio 3
+estanRelacionados :: Integer -> Integer -> Bool
+estanRelacionados n m = mod n m == 0
