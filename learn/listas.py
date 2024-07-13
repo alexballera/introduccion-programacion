@@ -2,6 +2,7 @@ lista1 = [1,2,2,3,4,5,6,7,8,9]
 lista2 = [1,2,3,4,5,6,7,8,9]
 lista3 = [1,2,3,4,5,6,7,8,9]
 lista4 = [1,2,3,4,5,6,7,8,9,10]
+lista5 = [1,2,3,4,5,6,7,8,9,10]
 
 print('lista1.pop()')
 print(f'lista1 = {lista1}')
@@ -45,9 +46,10 @@ print()
 
 print('list.extend(iterable)')
 # Extiende la lista agregándole todos los ítems del iterable. Equivale a a[len(a):] = iterable
-# lista4[len(lista4):] = lista1
-lista4.extend(lista1)
+lista4[len(lista4):] = lista1
 print(f'extend {lista4}')
+lista5.extend(lista1)
+print(f'extend {lista5}')
 
 print()
 
