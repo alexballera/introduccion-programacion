@@ -1,3 +1,7 @@
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+
+{-# HLINT ignore "Use uncurry" #-}
+{-# HLINT ignore "Use even" #-}
 module Practica3 where
 
 -- 1a
@@ -98,3 +102,46 @@ digitoDecenas n = div (mod (absoluto n) 100) 10
 -- ! Ejercicio 3
 estanRelacionados :: Integer -> Integer -> Bool
 estanRelacionados n m = mod n m == 0
+
+-- ! Ejercicio 4
+-- 4a
+prodInt :: (Integer, Integer) -> (Integer, Integer) -> Integer
+prodInt x y = fst x * (fst y + snd y) + snd x * (fst y + snd y)
+
+-- 4b
+todoMenor :: (Integer, Integer) -> (Integer, Integer) -> Bool
+todoMenor x y = (fst x < fst y) && (snd x < snd y)
+
+-- 4c
+distanciaPuntos :: (Float, Float) -> (Float, Float) -> Float
+distanciaPuntos x y = sqrt (((fst x - fst y) ^ 2) + ((snd x - snd y) ^ 2))
+
+-- 4d
+sumaTerna :: (Integer, Integer, Integer) -> Integer
+sumaTerna (x, y, z) = x + y + z
+
+-- 4e
+sumarSoloMultiplos :: (Integer, Integer, Integer) -> Integer -> Integer
+sumarSoloMultiplos (a, b, c) n = esMultiplo a n + esMultiplo b n + esMultiplo c n
+  where
+    esMultiplo n m
+      | mod n m == 0 = n
+      | otherwise = 0
+
+-- 4f
+posPrimerPar :: (Integer, Integer, Integer) -> Integer
+posPrimerPar (a, b, c)
+  | esPar a = 0
+  | esPar b = 1
+  | esPar c = 2
+  | otherwise = 4
+  where
+    esPar n = mod n 2 == 0
+
+-- 4g
+crearPar :: a -> b -> (a, b)
+crearPar a b = (a, b)
+
+-- 4h
+invertir :: (a, b) -> (b, a)
+invertir (a, b) = (b, a)
