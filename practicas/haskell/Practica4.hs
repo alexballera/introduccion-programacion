@@ -1,7 +1,7 @@
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+
 {-# HLINT ignore "Use even" #-}
 {-# HLINT ignore "Use odd" #-}
-module Practica4 where
 {-
 ! Ejercicio 1.
 
@@ -33,15 +33,16 @@ fibonacci n = fibonacci (n - 1) + fibonacci (n - 2)
 ? Implementar una función parteEntera :: Float -> Integer
 ? según la siguiente especificación:
 problema parteEntera (x: R) : Z {
-  requiere: { True } 
+  requiere: { True }
   asegura: { resultado ≤ x < resultado+1 }
 }
 -}
 
 parteEntera :: Float -> Integer
-parteEntera n | 0 <= n && n < 1 = 0
-               | n >= 1 = 1 + parteEntera (n - 1)
-               | otherwise = (-1) + parteEntera (n + 1)
+parteEntera n
+  | 0 <= n && n < 1 = 0
+  | n >= 1 = 1 + parteEntera (n - 1)
+  | otherwise = (-1) + parteEntera (n + 1)
 
 {-
 ! Ejercicio 3.
@@ -57,9 +58,10 @@ problema esDivisible (m: Z, n: Z) : Z {
 -}
 
 esDivisible :: Integer -> Integer -> Bool
-esDivisible m n | m < n = False
-                | m == n = True
-                | m > n = esDivisible (m - n) n
+esDivisible m n
+  | m < n = False
+  | m == n = True
+  | m > n = esDivisible (m - n) n
 
 {-
 ! Ejercicio 4.
@@ -76,7 +78,7 @@ problema sumaImpares (n: N) : N {
 sumaImpares :: Int -> Int
 sumaImpares 0 = 0
 sumaImpares 1 = 1
-sumaImpares n = sumaImpares (n - 1) + (2*n - 1)
+sumaImpares n = sumaImpares (n - 1) + (2 * n - 1)
 
 {-
 ! Ejercicio 5.
@@ -86,7 +88,7 @@ sumaImpares n = sumaImpares (n - 1) + (2*n - 1)
 medioFact :: Integer -> Integer
 medioFact 0 = 1
 medioFact 1 = 1
-medioFact n = n*medioFact (n - 2)
+medioFact n = n * medioFact (n - 2)
 
 {-
 ! Ejercicio 6.
@@ -102,8 +104,9 @@ quitaUltimoDigito n = div n 10
 
 sumaDigitos :: Integer -> Integer
 sumaDigitos n
- | n < 10 = n
- | otherwise = muestraUltimoDigito n + sumaDigitos (quitaUltimoDigito n)
+  | n < 10 = n
+  | otherwise = muestraUltimoDigito n + sumaDigitos (quitaUltimoDigito n)
+
 {-
 ! Ejercicio 7.
 ? Implementar la función todosDigitosIguales :: Integer -> Bool
@@ -117,8 +120,8 @@ problema todosDigitosIguales (n: Z) : B {
 
 todosDigitosIguales :: Integer -> Bool
 todosDigitosIguales n
- | n < 10 = True
- | otherwise = (muestraUltimoDigito n == muestraUltimoDigito (quitaUltimoDigito n)) && todosDigitosIguales (quitaUltimoDigito n)
+  | n < 10 = True
+  | otherwise = (muestraUltimoDigito n == muestraUltimoDigito (quitaUltimoDigito n)) && todosDigitosIguales (quitaUltimoDigito n)
 
 {-
 ! Ejercicio 8.
@@ -128,15 +131,19 @@ todosDigitosIguales n
 -}
 
 iesimoDigito :: Integer -> Integer -> Integer
-iesimoDigito n i | i == cantidadDigitos n = mostrarUltimo n
-                 | otherwise = mod (div n (10^(cantidadDigitos n - i))) 10 -- iesimoDigito (sacarUltimo n) i 
-                 where mostrarUltimo n = mod n 10
-                       sacarUltimo n = div n 10
+iesimoDigito n i
+  | i == cantidadDigitos n = mostrarUltimo n
+  | otherwise = mod (div n (10 ^ (cantidadDigitos n - i))) 10 -- iesimoDigito (sacarUltimo n) i
+  where
+    mostrarUltimo n = mod n 10
+    sacarUltimo n = div n 10
 
 cantidadDigitos :: Integer -> Integer
-cantidadDigitos n | n < 10 = 1
-                  | otherwise = 1 + cantidadDigitos (sacarUltimo n)
-                   where sacarUltimo n = div n 10
+cantidadDigitos n
+  | n < 10 = 1
+  | otherwise = 1 + cantidadDigitos (sacarUltimo n)
+  where
+    sacarUltimo n = div n 10
 
 {-
 ! Ejercicio 9.
@@ -151,10 +158,11 @@ problema esCapicua (n: N): Bool {
 
 esCapicua :: Integer -> Bool
 esCapicua n
- | cantidadDigitos n <= 1 = True
- | iesimoDigito n (cantidadDigitos n) /= iesimoDigito n 1 = False
- | otherwise = esCapicua (quitaExtremos n)
- where quitaExtremos n = div (mod n (10^(cantidadDigitos n - 1))) 10 -- al n de entrada le saca los extremos ej: 9876789 -> 87678
+  | cantidadDigitos n <= 1 = True
+  | iesimoDigito n (cantidadDigitos n) /= iesimoDigito n 1 = False
+  | otherwise = esCapicua (quitaExtremos n)
+  where
+    quitaExtremos n = div (mod n (10 ^ (cantidadDigitos n - 1))) 10 -- al n de entrada le saca los extremos ej: 9876789 -> 87678
 
 {-
 ! Ejercicio 10.
@@ -163,18 +171,18 @@ esCapicua n
 
 f1 :: Integer -> Integer
 f1 0 = 1
-f1 n | n > 0 = 2^(n + 1) - 1
+f1 n | n > 0 = 2 ^ (n + 1) - 1
 
 f2 :: Integer -> Float -> Float
 f2 1 q = q
-f2 n q = f2 (n - 1) q + q^n
+f2 n q = f2 (n - 1) q + q ^ n
 
 f3 :: Integer -> Float -> Float
 f3 n = f2 (2 * n)
 
 f4 :: Integer -> Float -> Float
 -- f4 n q = f3 n q - f2 n q
-f4 n q = f2 (2*n) q - f2 n q
+f4 n q = f2 (2 * n) q - f2 n q
 
 {-
 ! Ejercicio 11.
@@ -184,11 +192,12 @@ f4 n q = f2 (2*n) q - f2 n q
 eAprox :: Integer -> Float
 eAprox 0 = 1
 eAprox 1 = 2
-eAprox n
-  = eAprox (n - 1) + 1/factorial n
- where factorial 0 = 1
-       factorial 1 = 1
-       factorial n = factorial (n - 1)* fromIntegral n
+eAprox n =
+  eAprox (n - 1) + 1 / factorial n
+  where
+    factorial 0 = 1
+    factorial 1 = 1
+    factorial n = factorial (n - 1) * fromIntegral n
 
 e :: Float
 e = eAprox 10
@@ -199,7 +208,7 @@ e = eAprox 10
 
 f :: Integer -> Float
 f 1 = 2
-f n = 2 + 1/f (n - 1)
+f n = 2 + 1 / f (n - 1)
 
 raizDe2Aprox n = f n - 1
 
@@ -215,7 +224,7 @@ problema sumatoria (n: Z, m: Z) : Z {
 
 sumatoriaInterna :: Int -> Int -> Int
 sumatoriaInterna 0 _ = 0
-sumatoriaInterna m i = sumatoriaInterna (m - 1) i + i^m
+sumatoriaInterna m i = sumatoriaInterna (m - 1) i + i ^ m
 
 sumatoria :: Int -> Int -> Int
 sumatoria 0 _ = 0
@@ -236,7 +245,7 @@ problema sumatoria (n: Z, m: Z) : Z {
 
 sumaPotenciasInterna :: Integer -> Integer -> Integer
 sumaPotenciasInterna q 0 = 0
-sumaPotenciasInterna q m = q^m + sumaPotenciasInterna q (m - 1)
+sumaPotenciasInterna q m = q ^ m + sumaPotenciasInterna q (m - 1)
 
 sumaPotencias :: Integer -> Integer -> Integer -> Integer
 sumaPotencias 0 _ _ = 0
@@ -264,9 +273,10 @@ sumaRacionales n m = sumaRacionalesAux n m + sumaRacionales (n - 1) m
 
 menorDivisor :: Integer -> Integer
 menorDivisor n = menorDivisorAux n 2
-                where menorDivisorAux n d
-                        | mod n d == 0 = d
-                        | otherwise = menorDivisorAux n (d + 1)
+  where
+    menorDivisorAux n d
+      | mod n d == 0 = d
+      | otherwise = menorDivisorAux n (d + 1)
 
 {-
 ? b) Implementar la función esPrimo :: Integer -> Bool
@@ -294,8 +304,10 @@ sonCoprimos n m = menorDivisor n /= menorDivisor m
 nEsimoPrimo :: Integer -> Integer
 nEsimoPrimo 1 = 2
 nEsimoPrimo n = proxPrimo (nEsimoPrimo (n - 1))
-              where proxPrimo n | esPrimo (n + 1) = n + 1
-                                | otherwise  = proxPrimo (n + 1)
+  where
+    proxPrimo n
+      | esPrimo (n + 1) = n + 1
+      | otherwise = proxPrimo (n + 1)
 
 {-
 ! Ejercicio 17.
@@ -309,11 +321,13 @@ problema esFibonacci (n: Z) : B {
 -}
 esFibonacci :: Integer -> Bool
 esFibonacci n = pasoRecursivo n 0
-              where pasoRecursivo n i | fibonacci i == n = True
-                                      | fibonacci i > n = False
-                                      | otherwise = pasoRecursivo n (i + 1)
+  where
+    pasoRecursivo n i
+      | fibonacci i == n = True
+      | fibonacci i > n = False
+      | otherwise = pasoRecursivo n (i + 1)
 
- {-
+{-
 ! Ejercicio 18.
 ? Implementar una función mayorDigitoPar :: Integer -> Integer
 ? según la siguiente especificación:
@@ -326,18 +340,20 @@ problema mayorDigitoPar (n: N) : N {
  -}
 mayorDigitoPar :: Integer -> Integer
 mayorDigitoPar n
- | casoBase1 = n
- | casoBase2 = -1
- | esPar = maximo
- | otherwise = recursivo
- where casoBase1 = n < 10 && esPar
-       casoBase2 = n < 10
-       esPar = mod n 2 == 0
-       ultimo n = mod n 10
-       quitaUltimo = div n 10
-       recursivo = mayorDigitoPar quitaUltimo
-       maximo | mod n 10 > mayorDigitoPar quitaUltimo = mod n 10
-              | otherwise = mayorDigitoPar quitaUltimo
+  | casoBase1 = n
+  | casoBase2 = -1
+  | esPar = maximo
+  | otherwise = recursivo
+  where
+    casoBase1 = n < 10 && esPar
+    casoBase2 = n < 10
+    esPar = mod n 2 == 0
+    ultimo n = mod n 10
+    quitaUltimo = div n 10
+    recursivo = mayorDigitoPar quitaUltimo
+    maximo
+      | mod n 10 > mayorDigitoPar quitaUltimo = mod n 10
+      | otherwise = mayorDigitoPar quitaUltimo
 
 {-
 ! Ejercicio 19.
@@ -352,13 +368,16 @@ problema esSumaInicialDePrimos (n: Z) : B f
 esSumaInicialDePrimos :: Int -> Bool
 esSumaInicialDePrimos 0 = False
 esSumaInicialDePrimos n = n == sumaDePrimerosPrimos n
-                        where  sumaDePrimerosPrimos n | n == 1 = 0
-                                                      | esNumPrimo (n - 1) = n - 1 + sumaDePrimerosPrimos (n - 1)
-                                                      | otherwise = sumaDePrimerosPrimos (n - 1)
-                               esNumPrimo n = noTieneDivisores n 2
-                               noTieneDivisores n i | n == i || i == 1 = True
-                                                    | n == 1 || mod n i == 0 = False
-                                                    | otherwise = noTieneDivisores n (i + 1)
+  where
+    sumaDePrimerosPrimos n
+      | n == 1 = 0
+      | esNumPrimo (n - 1) = n - 1 + sumaDePrimerosPrimos (n - 1)
+      | otherwise = sumaDePrimerosPrimos (n - 1)
+    esNumPrimo n = noTieneDivisores n 2
+    noTieneDivisores n i
+      | n == i || i == 1 = True
+      | n == 1 || mod n i == 0 = False
+      | otherwise = noTieneDivisores n (i + 1)
 
 {-
 ! Ejercicio 21.
@@ -367,16 +386,16 @@ esSumaInicialDePrimos n = n == sumaDePrimerosPrimos n
 pitagoras 3 4 5   20
 pitagoras 3 4 2   6
 -}
-esMenorPitagoriano :: Integer->Integer->Integer->Bool
-esMenorPitagoriano p q r = p^2 + q^2 <= r^2
+esMenorPitagoriano :: Integer -> Integer -> Integer -> Bool
+esMenorPitagoriano p q r = p ^ 2 + q ^ 2 <= r ^ 2
 
 pitagorasNFijo :: Integer -> Integer -> Integer -> Integer
-pitagorasNFijo n m r | m < 0 = 0
-                     | esMenorPitagoriano n m r = 1 + pitagorasNFijo n (m - 1) r
-                     | otherwise = pitagorasNFijo n (m - 1) r
+pitagorasNFijo n m r
+  | m < 0 = 0
+  | esMenorPitagoriano n m r = 1 + pitagorasNFijo n (m - 1) r
+  | otherwise = pitagorasNFijo n (m - 1) r
 
 pitagoras :: Integer -> Integer -> Integer -> Integer
-pitagoras n m r | n == 0 = pitagorasNFijo 0 m r
-                | otherwise = pitagorasNFijo n m r + pitagoras (n - 1) m r
-
-
+pitagoras n m r
+  | n == 0 = pitagorasNFijo 0 m r
+  | otherwise = pitagorasNFijo n m r + pitagoras (n - 1) m r

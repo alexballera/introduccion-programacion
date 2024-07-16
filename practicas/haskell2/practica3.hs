@@ -145,3 +145,36 @@ crearPar a b = (a, b)
 -- 4h
 invertir :: (a, b) -> (b, a)
 invertir (a, b) = (b, a)
+
+-- ! Ejercicio 5
+todoMenores :: (Integer, Integer, Integer) -> Bool
+todoMenores (a, b, c) = (f5 a > g5 a) && (f5 b > g5 b) && (f5 c > g5 c)
+
+f5 :: Integer -> Integer
+f5 n
+  | n <= 7 = n ^ 2
+  | otherwise = 2 * n - 1
+
+g5 :: Integer -> Integer
+g5 n
+  | mod n 2 == 0 = div n 2
+  | otherwise = 3 * n + 1
+
+-- ! Ejercicio 6
+bisiesto :: Integer -> Bool
+bisiesto n = not ((mod n 4 /= 0) || (mod n 100 == 0 && mod n 400 /= 0))
+
+-- ! Ejercicio 7
+distanciaManhattan :: (Float, Float, Float) -> (Float, Float, Float) -> Float
+distanciaManhattan (a, b, c) (p, q, r) = abs (a - p) + abs (b - q) + abs (c - r)
+
+-- ! Ejercicio 8
+comparar :: Integer -> Integer -> Integer
+comparar n m
+  | sumaUltimoDosDigitos n < sumaUltimoDosDigitos m = 1
+  | sumaUltimoDosDigitos n > sumaUltimoDosDigitos m = -1
+  | otherwise = 0
+  where
+    sumaUltimoDosDigitos n = ultimoDigito n + penultimoDigito n
+    ultimoDigito n = mod n 10
+    penultimoDigito n = ultimoDigito (div n 10)
